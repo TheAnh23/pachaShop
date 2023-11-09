@@ -16,8 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('img', models.CharField(max_length=200)),
-                ('title', models.CharField(max_length=300)),
-                ('description', models.CharField(max_length=300)),
+                ('alt_text', models.CharField(max_length=300)),
             ],
         ),
         migrations.RemoveField(

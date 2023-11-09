@@ -16,19 +16,14 @@ from paypal.standard.forms import PayPalPaymentsForm
 def home(request):
 	banners=Banner.objects.all().order_by('-id')
 	data=Product.objects.filter(is_featured=True).order_by('-id')
-	return render(request,'index.html',{'data':data,'banners':banners})
+	for product in data:
+		product_reviews = ProductReview.objects.filter(product=product)
+		avg_rating = product_reviews.aggregate(avg_rating=Avg('review_rating'))['avg_rating']
+		product.avg_rating = avg_rating or 0
 
-# About us
-def about_us(request):
-	return render(request, 'aboutus.html')
-
-# About us
-def contact(request):
-	return render(request, 'contact.html')
-
-# Blog
-def blog(request):
-	return render(request, 'blog.html')
+	category_1=Category.objects.order_by('-id').reverse()[:3]
+	category_2=Category.objects.order_by('-id').reverse()[3:]
+	return render(request,'index.html',{'data':data,'banners':banners,'category_1':category_1,'category_2':category_2})
 
 # Category
 def category_list(request):

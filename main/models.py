@@ -4,8 +4,7 @@ from django.contrib.auth.models import User
 # Banner
 class Banner(models.Model):
     img=models.ImageField(upload_to="banner_imgs/")
-    description=models.CharField(max_length=300, default="")
-    title=models.CharField(max_length=300)
+    alt_text=models.CharField(max_length=300)
 
     class Meta:
         verbose_name_plural='1. Banners'
@@ -14,7 +13,7 @@ class Banner(models.Model):
         return mark_safe('<img src="%s" width="100" />' % (self.img.url))
 
     def __str__(self):
-        return str(self.title)
+        return self.alt_text
 
 # Category
 class Category(models.Model):

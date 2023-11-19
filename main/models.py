@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
+from django.utils import timezone
+
 # Banner
 class Banner(models.Model):
     img=models.ImageField(upload_to="banner_imgs/")
@@ -69,8 +71,10 @@ class Size(models.Model):
 class Product(models.Model):
     title=models.CharField(max_length=200)
     slug=models.CharField(max_length=400)
-    detail=models.TextField()
-    specs=models.TextField()
+    detail=models.TextField(default='')
+    ingredient=models.TextField(default='')
+    using=models.TextField(default='')
+    benefit=models.TextField(default='')
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
     brand=models.ForeignKey(Brand,on_delete=models.CASCADE)
     status=models.BooleanField(default=True)

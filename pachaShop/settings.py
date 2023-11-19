@@ -43,7 +43,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'bottleShop.urls'
+ROOT_URLCONF = 'pachaShop.urls'
 
 TEMPLATES = [
     {
@@ -62,7 +62,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bottleShop.wsgi.application'
+WSGI_APPLICATION = 'pachaShop.wsgi.application'
 
 
 # Database

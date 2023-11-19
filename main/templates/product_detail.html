@@ -15,9 +15,13 @@
 		<div class="col-md-6">
 			<h3 class="my-4 border-bottom pb-1 text-left">{{data.title}}</h3>
 			<div class="product-detail-inline">
-				<img src="{% static '/media/images/icons/star.png' %}" alt="star"/>
+				{% for review in reviews %}
+					{% for star in review.review_rating|ljust:review.review_rating %}
+						<img src="{% static '/media/images/icons/star.png' %}" alt="star"/>
+					{% endfor %}
+				{% endfor %}
 				<div class="comment">
-					<span class="avg-rating">{{avg_reviews.avg_rating}}</span>	
+					<span class="avg-rating">({{count_reviews}})</span>	
 				</div>
 			</div>
 			<div class="product-detail-inline">
@@ -181,7 +185,7 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Add Product Review</h5>
+	        <h5 class="modal-title" id="exampleModalLabel">Viết bình luận</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>

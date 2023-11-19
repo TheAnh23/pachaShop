@@ -87,10 +87,20 @@ def product_detail(request,slug,id):
 	# End
 
 	# Fetch avg rating for reviews
-	avg_reviews=ProductReview.objects.filter(product=product).aggregate(avg_rating=Avg('review_rating'))
+	avg_reviews = ProductReview.objects.filter(product=product).aggregate(avg_rating=Avg('review_rating'))
+
+	if avg_reviews['avg_rating'] is None or avg_reviews['avg_rating'] == 0:
+		avg_reviews['avg_rating'] = 5.0
+
+	count_review = ProductReview.objects.filter(product=product).count()
+
+	if count_review > 0:
+		count_reviews = str(count_review)+ ' bình luận'
+	else:
+		count_reviews = "Trở thành người bình luận đầu tiên"
 	# End
 
-	return render(request, 'product_detail.html',{'data':product,'related':related_products,'colors':colors,'sizes':sizes,'reviewForm':reviewForm,'canAdd':canAdd,'reviews':reviews,'avg_reviews':avg_reviews})
+	return render(request, 'product_detail.html',{'data':product,'related':related_products,'colors':colors,'sizes':sizes,'reviewForm':reviewForm,'canAdd':canAdd,'reviews':reviews,'avg_reviews':avg_reviews,'count_reviews':count_reviews})
 
 # Search
 def search(request):

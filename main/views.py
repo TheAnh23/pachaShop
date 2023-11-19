@@ -24,7 +24,7 @@ def home(request):
 	category_1=Category.objects.order_by('-id').reverse()[:3]
 	category_2=Category.objects.order_by('-id').reverse()[3:]
 	return render(request,'index.html',{'data':data,'banners':banners,'category_1':category_1,'category_2':category_2})
-
+#hehehee
 # Category
 def category_list(request):
     data=Category.objects.all().order_by('-id')

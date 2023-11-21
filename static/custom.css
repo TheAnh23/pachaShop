@@ -1,3 +1,4 @@
+p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-height: 26px; word-wrap: break-word; text-align: justify;}
 .focused{
 	outline: 0 !important;
     box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%) !important;
@@ -157,3 +158,21 @@ h5 {color: #9B4600; font-size: 16px; font-family: Inter; font-weight: 700; line-
 	width: 50%;
 	height: 100%;
 	background: #F2E6E0; justify-content: center; align-items: center; display: inline-flex;}
+.resultReview strong {text-align: center; color: #201A17; font-size: 40px; font-family: Inter; font-weight: 800; line-height: 44px; word-wrap: break-word}
+button.reviewBtn {
+	width: 199px; height: 40px; border-radius: 100px; overflow: hidden; border: 1px #85746B solid; flex-direction: column; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	text-align: center; color: #9B4600; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word;
+}
+.btn-add-to-card {
+	width: 35%;
+	background: #FFDBC9; border-radius: 100px; overflow: hidden; flex-direction: column; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 10px; padding-bottom: 10px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	text-align: center; color: #763300; font-size: 18px; font-family: Inter; font-weight: 700; line-height: 32px; word-wrap: break-word;
+}
+.btn-buy-now {
+	margin-left: 5%;
+	width: 35%;
+	border-radius: 100px; overflow: hidden; border: 1px #85746B solid; flex-direction: column; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 10px; padding-bottom: 10px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	text-align: center; color: #9B4600; font-size: 18px; font-family: Inter; font-weight: 700; line-height: 32px; word-wrap: break-word;
+}

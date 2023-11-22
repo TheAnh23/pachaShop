@@ -21,9 +21,10 @@ def home(request):
 		avg_rating = product_reviews.aggregate(avg_rating=Avg('review_rating'))['avg_rating']
 		product.avg_rating = avg_rating or 0
 
+	category=Category.objects.order_by('-id')
 	category_1=Category.objects.order_by('-id').reverse()[:3]
 	category_2=Category.objects.order_by('-id').reverse()[3:]
-	return render(request,'index.html',{'data':data,'banners':banners,'category_1':category_1,'category_2':category_2})
+	return render(request,'index.html',{'data':data,'banners':banners,'category_1':category_1,'category_2':category_2,'category':category})
 #hehehee
 # Category
 def category_list(request):

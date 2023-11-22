@@ -17,7 +17,7 @@
 	<script type="text/javascript" src="{% static 'custom.js' %}"></script>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg">
+	<nav class="navbar navbar-expand-xl">
 		<div class="container-fluid">
 			<button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -41,8 +41,13 @@
 		      <li class="nav-item">
 		        <a class="nav-link text-dark" href="/">Về chúng tôi</a>
 		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link text-dark" href="{% url 'category-list' %}">Sản phẩm</a>
+		      <li class="nav-item dropdown dropdown-hover">
+		        <a class="nav-link text-dark" href="{% url 'product-list' %}" id="productsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sản phẩm</a>
+				<div class="dropdown-menu" aria-labelledby="productsDropdown">
+					{% for cate in category %}
+					<a class="dropdown-item" href="{% url 'category-product-list' cate.id %}">{{cate.title}}</a>
+					{% endfor %}
+				</div>
 		      </li>
 		      <li class="nav-item">
 		        <a class="nav-link text-dark" href="{% url 'brand-list' %}">Khuyến mãi</a>
@@ -64,7 +69,7 @@
 						<a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
 					{% else %}
 						<a class="dropdown-item" href="{% url 'login' %}">Đăng nhập</a>
-					<a class="dropdown-item" href="{% url 'signup' %}">Đăng ký</a>
+						<a class="dropdown-item" href="{% url 'signup' %}">Đăng ký</a>
 					{% endif %}
 					</div>
 				</li>

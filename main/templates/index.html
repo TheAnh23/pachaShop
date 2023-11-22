@@ -19,7 +19,7 @@
       {% else %}
       <div class="carousel-item">
       {% endif %}
-        <a href="#" class="image-container">
+        <a href="{% url 'product-list' %}" class="image-container">
           <img src="/media/{{banner.img}}" class="d-block w-100" class="">
           <button class="btn btn-banner overlay-button">Mua ngay</button>
         </a>
@@ -43,7 +43,7 @@
   {% for cate in category_1 %}
     <div class="col-md-4 mb-4">
       <div class="card shadow">
-        <a href="#" class="image-container">
+        <a href="category-product-list/{{cate.id}}" class="image-container">
           <div class="bg-category"></div>
           <div class="content-category">{{cate.title}}</div>
           <button class="btn-category overlay-button">Xem thêm</button>
@@ -55,7 +55,7 @@
   {% for cate in category_2 %}
     <div class="col-md-6 mb-4">
       <div class="card shadow">
-        <a href="#" class="image-container">
+        <a href="category-product-list/{{cate.id}}" class="image-container">
           <div class="bg-category"></div>
           <div class="content-category">{{cate.title}}</div>
           <button class="btn-category overlay-button">Xem thêm</button>

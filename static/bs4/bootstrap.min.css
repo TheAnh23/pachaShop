@@ -566,56 +566,41 @@ pre code {
     overflow-y: scroll
 }
 
+/* CSS cho container */
 .container,
-.container-fluid,
-.container-lg,
-.container-md,
-.container-sm,
-.container-xl {
-    width: 100%;
-    padding-right: 0px;
-    padding-left: 0px;
-    margin-right: auto;
-    margin-left: auto
+.container-fluid {
+  width: 100%;
+  padding-right: 15px; /* Thêm padding để nó trở nên dễ đọc */
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
-@media (min-width:576px) {
-
-    .container,
-    .container-sm {
-        max-width: 540px
-    }
+/* Media queries cho responsive design */
+@media (min-width: 576px) {
+  .container {
+    max-width: 540px;
+  }
 }
 
-@media (min-width:768px) {
-
-    .container,
-    .container-md,
-    .container-sm {
-        max-width: 720px
-    }
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
 }
 
-@media (min-width:992px) {
-
-    .container,
-    .container-lg,
-    .container-md,
-    .container-sm {
-        max-width: 960px
-    }
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
 }
 
-@media (min-width:1200px) {
-
-    .container,
-    .container-lg,
-    .container-md,
-    .container-sm,
-    .container-xl {
-        max-width: 1350px
-    }
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1350px;
+  }
 }
+
 
 .row {
     display: -ms-flexbox;
@@ -3782,11 +3767,12 @@ input[type=submit].btn-block {
 
 .dropdown-item {
     display: block;
-    width: 100%;
+    width: 12vw;
     padding: .25rem 1.5rem;
+    font-family: Inter;
     clear: both;
     font-weight: 400;
-    color: #212529;
+    color: #201A17;
     text-align: inherit;
     white-space: nowrap;
     background-color: transparent;
@@ -3795,7 +3781,8 @@ input[type=submit].btn-block {
 
 .dropdown-item:focus,
 .dropdown-item:hover {
-    color: #16181b;
+    color: #201A17;
+    font-weight: bold;
     text-decoration: none;
     background-color: #f8f9fa
 }

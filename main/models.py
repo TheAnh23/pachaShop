@@ -86,22 +86,26 @@ class Product(models.Model):
     def __str__(self):
         return self.title
 
-# Product Attribute
-class ProductAttribute(models.Model):
-    product=models.ForeignKey(Product,on_delete=models.CASCADE)
-    color=models.ForeignKey(Color,on_delete=models.CASCADE)
-    size=models.ForeignKey(Size,on_delete=models.CASCADE)
-    price=models.PositiveIntegerField(default=0)
-    image=models.ImageField(upload_to="product_imgs/",null=True)
-
-    class Meta:
-        verbose_name_plural='7. ProductAttributes'
-
-    def __str__(self):
-        return self.product.title
+# Image
+class Image(models.Model):
+    image = models.ImageField(upload_to="product_imgs/")
 
     def image_tag(self):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
+# Product Attribute
+class ProductAttribute(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
+    size = models.ForeignKey(Size, on_delete=models.CASCADE)
+    price = models.PositiveIntegerField(default=0)
+    images = models.ManyToManyField(Image)
+
+    class Meta:
+        verbose_name_plural = '7. ProductAttributes'
+
+    def __str__(self):
+        return self.product.title
 
 # Order
 status_choice=(

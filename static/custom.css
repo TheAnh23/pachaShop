@@ -7,9 +7,6 @@ p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-h
 .errorlist li{
 	color: red;
 }
-.navbar {
-	background-color: #D9D9D9;
-}
 .input-group {
 	border-radius: 100px; 
 	overflow: hidden; 
@@ -25,9 +22,6 @@ p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-h
 	font-weight: 400;
 	line-height: 20px;
 	word-wrap: break-word
-}
-.navbar-collapse {
-	margin-left: 140px;
 }
 .image-container {
 	position: relative;

@@ -4031,6 +4031,8 @@ input[type=submit].btn-block {
 
 .input-group-append,
 .input-group-prepend {
+    margin-left: auto;
+    margin-right: auto;
     display: -ms-flexbox;
     display: flex
 }
@@ -4717,6 +4719,7 @@ input[type=submit].btn-block {
 }
 
 .navbar {
+    width: 100%;
     position: relative;
     display: -ms-flexbox;
     display: flex;
@@ -4726,7 +4729,11 @@ input[type=submit].btn-block {
     align-items: center;
     -ms-flex-pack: justify;
     justify-content: space-between;
-    padding: .5rem 1rem
+    padding: 0.5%;
+    position: sticky;
+	top: 0;
+	background-color: #D9D9D9;
+    z-index: 3;
 }
 
 .navbar .container,
@@ -4735,13 +4742,15 @@ input[type=submit].btn-block {
 .navbar .container-md,
 .navbar .container-sm,
 .navbar .container-xl {
-    display: -ms-flexbox;
+    justify-content: flex-start;
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
+    justify-content: space-between;
     -ms-flex-align: center;
     align-items: center;
-    -ms-flex-pack: justify
+    -ms-flex-pack: justify;
+    justify-content: flex-start;
 }
 
 .navbar-brand {
@@ -4767,7 +4776,10 @@ input[type=submit].btn-block {
     flex-direction: column;
     padding-left: 0;
     margin-bottom: 0;
-    list-style: none
+    list-style: none;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .navbar-nav .nav-link {
@@ -4792,7 +4804,7 @@ input[type=submit].btn-block {
     -ms-flex-positive: 1;
     flex-grow: 1;
     -ms-flex-align: center;
-    align-items: center
+    align-items: center;
 }
 
 .navbar-toggler {
@@ -4869,7 +4881,7 @@ input[type=submit].btn-block {
         display: -ms-flexbox !important;
         display: flex !important;
         -ms-flex-preferred-size: auto;
-        flex-basis: auto
+        flex-basis: auto;
     }
 
     .navbar-expand-sm .navbar-toggler {

@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Banner,Category,Brand,Color,Size,Product,ProductAttribute,CartOrder,CartOrderItems,ProductReview,Wishlist,UserAddressBook
+from django.utils.safestring import mark_safe
+from .models import Banner,Category,Brand,Color,Size,Product,ProductAttribute,CartOrder,CartOrderItems,ProductReview,Wishlist,UserAddressBook,Image
 
 # admin.site.register(Banner)
 admin.site.register(Brand)
@@ -23,10 +24,15 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable=('status','is_featured')
 admin.site.register(Product,ProductAdmin)
 
-# Product Attribute
+class ImageAdmin(admin.ModelAdmin):
+    list_display = ('id', 'image_tag')
+admin.site.register(Image, ImageAdmin)
+
 class ProductAttributeAdmin(admin.ModelAdmin):
-    list_display=('id','image_tag','product','price','color','size')
-admin.site.register(ProductAttribute,ProductAttributeAdmin)
+    list_display = ('id', 'product', 'price', 'color', 'size', 'display_images')
+    def display_images(self, obj):
+        return mark_safe(' '.join([image.image_tag() for image in obj.images.all()]))
+admin.site.register(ProductAttribute, ProductAttributeAdmin)
 
 # Order
 class CartOrderAdmin(admin.ModelAdmin):

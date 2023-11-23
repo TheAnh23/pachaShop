@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>PaCha Shop</title>
@@ -16,133 +17,149 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'custom.css' %}" />
 	<script type="text/javascript" src="{% static 'custom.js' %}"></script>
 </head>
+
 <body>
 	<nav class="navbar navbar-expand-lg">
 		<div class="container-fluid">
-			<button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
 			<a class="navbar-brand" href="/">
 				<img src="{% static '\media\images\logo\logo.png' %}" alt="logo">
 				<img src="{% static '\media\images\logo\name.png' %}" alt="name">
 			</a>
-		  <form class="form-inline my-2 my-lg-0" action="/search">
-			<div class="input-group">
-				<div class="input-group-append">
-					<button class="btn" type="submit" id="button-addon2">
-						<img src="{% static '\media\images\icons\find.png' %}" alt="find">
-					</button>
-				</div>
-				<input name="q" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" />
-			</div>
-		  </form>
-		  <div class="collapse navbar-collapse" id="navbarNav">
-		    <ul class="navbar-nav">
-		      <li class="nav-item">
-		        <a class="nav-link text-dark" href="/">Về chúng tôi</a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link text-dark" href="{% url 'category-list' %}">Sản phẩm</a>
-		      </li>
-		      <li class="nav-item">
-		        <a class="nav-link text-dark" href="{% url 'brand-list' %}">Khuyến mãi</a>
-		      </li>
-			  <li class="nav-item">
-		        <a class="nav-link text-dark" href="{% url 'category-list' %}">Tin tức</a>
-		      </li>
-		      <li class="nav-item" style="margin-right: 75px;">
-		        <a class="nav-link text-dark" href="{% url 'brand-list' %}">Liên hệ</a>
-		      </li>
-		      <div class="input-group-append navbar-nav">
-				<li class="nav-item dropdown">
-					<a class="nav-link text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img src="{% static '\media\images\icons\account.png' %}" alt="account">
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					{% if user.is_authenticated %}
-						<a class="dropdown-item" href="{% url 'my_dashboard' %}">Thống kê</a>
-						<a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
-					{% else %}
-						<a class="dropdown-item" href="{% url 'login' %}">Đăng nhập</a>
-					<a class="dropdown-item" href="{% url 'signup' %}">Đăng ký</a>
-					{% endif %}
+			<form class="form-inline my-2 my-lg-0" action="/search">
+				<div class="input-group">
+					<div class="input-group-append">
+						<button class="btn" type="submit" id="button-addon2">
+							<img src="{% static '\media\images\icons\find.png' %}" alt="find">
+						</button>
 					</div>
-				</li>
-				{% if user.is_authenticated %}
-				<li class="nav-item">
-					<a class="nav-link" href="{% url 'my_wishlist' %}">
-						<img src="{% static '\media\images\icons\favorite.png' %}" alt="favourite">
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link text-dark" href="{% url 'cart' %}">
-						<img src="{% static '/media/images/icons/cart.png' %}" alt="cart"> 
-						(<span class="cart-list">{{request.session.cartdata|length}}</span>)
-					</a>
-				</li>
-				{% endif %}
-			  </div>
-		    </ul>
-		  </div>
+					<input name="q" type="text" class="form-control" placeholder="Tìm kiếm sản phẩm" />
+				</div>
+			</form>
+			<button class="navbar-toggler navbar-light" type="button" data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<div class="input-group-append navbar-nav">
+					<ul class="navbar-nav">
+						<li class="nav-item">
+							<a class="nav-link text-dark" href="/">Về chúng tôi</a>
+						</li>
+						<li class="nav-item dropdown dropdown-hover">
+							<a class="nav-link text-dark" href="{% url 'product-list' %}" id="productsDropdown"
+								role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sản phẩm</a>
+							<div class="dropdown-menu" aria-labelledby="productsDropdown">
+								{% for cate in category %}
+								<a class="dropdown-item"
+									href="{% url 'category-product-list' cate.id %}">{{cate.title}}</a>
+								{% endfor %}
+							</div>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" href="{% url 'brand-list' %}">Khuyến mãi</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" href="{% url 'category-list' %}">Tin tức</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link text-dark" href="{% url 'brand-list' %}">Liên hệ</a>
+						</li>
+				</div>
+				<div class="input-group-append navbar-nav">
+					<li class="nav-item dropdown">
+						<a class="nav-link text-dark" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+							aria-haspopup="true" aria-expanded="false">
+							<img src="{% static '\media\images\icons\account.png' %}" alt="account">
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							{% if user.is_authenticated %}
+							<a class="dropdown-item" href="{% url 'my_dashboard' %}">Thống kê</a>
+							<a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+							{% else %}
+							<a class="dropdown-item" href="{% url 'login' %}">Đăng nhập</a>
+							<a class="dropdown-item" href="{% url 'signup' %}">Đăng ký</a>
+							{% endif %}
+						</div>
+					</li>
+					{% if user.is_authenticated %}
+					<li class="nav-item">
+						<a class="nav-link" href="{% url 'my_wishlist' %}">
+							<img src="{% static '\media\images\icons\favorite.png' %}" alt="favourite">
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link text-dark" href="{% url 'cart' %}">
+							<img src="{% static '/media/images/icons/cart.png' %}" alt="cart">
+							(<span class="cart-list">{{request.session.cartdata|length}}</span>)
+						</a>
+					</li>
+					{% endif %}
+				</div>
+				</ul>
+			</div>
 		</div>
-    </nav>
-    
-    {% block content %}
-    {% endblock %}
+	</nav>
 
-<footer class="pt-4 my-md-5 pt-md-5 border-top container-fluid">
-    <div class="row header-row">
-        <div class="col-12">
-			<a href="#">
-				<img src="{% static '\media\images\logo\footer.png' %}" alt="footer">
-			</a>
-        </div>
-	</div>
-	<div class="row main-row">
-		<div class="col-4 content-footer">
-			<strong>CHĂM SÓC ĐẾN TỰ NHIÊN</strong>
-			<h1>PACHA SOAP là công ty hoạt động với mục đích chế tạo các sản phẩm thủ công, tự nhiên làm hài lòng làn da và nâng cao sức khỏe. Sứ mệnh của chúng tôi là kinh doanh có đạo đức bằng cách thực hiện các giải pháp lâu dài, bền vững.</h1>
-			<p>Đăng ký để nhận mã giảm giá độc quyền và tin tức thú vị.<br/>Ưu đãi áp dụng cho tất cả sản phẩm!</p>
-			<button class="btn-footer overlay-button">Đăng ký</button>
+	{% block content %}
+	{% endblock %}
+
+	<footer class="pt-4 my-md-5 pt-md-5 border-top container-fluid">
+		<div class="row header-row">
+			<div class="col-12">
+				<a href="#">
+					<img src="{% static '\media\images\logo\footer.png' %}" alt="footer">
+				</a>
+			</div>
 		</div>
-		<div class="col-4 col-md">
-			<h5>Thông tin quan trọng</h5>
-			<ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="#">Chính sách giao hàng & đổi trả</a></li>
-				<li><a class="text-muted" href="#">Chính sách bảo mật</a></li>
-				<li><a class="text-muted" href="#">Điều khoản và điều kiện</a></li>
-				<li><a class="text-muted" href="#">Câu hỏi thường gặp</a></li>
-			</ul>
+		<div class="row main-row">
+			<div class="col-4 content-footer">
+				<strong>CHĂM SÓC ĐẾN TỰ NHIÊN</strong>
+				<h1>PACHA SOAP là công ty hoạt động với mục đích chế tạo các sản phẩm thủ công, tự nhiên làm hài lòng
+					làn da và nâng cao sức khỏe. Sứ mệnh của chúng tôi là kinh doanh có đạo đức bằng cách thực hiện các
+					giải pháp lâu dài, bền vững.</h1>
+				<p>Đăng ký để nhận mã giảm giá độc quyền và tin tức thú vị.<br />Ưu đãi áp dụng cho tất cả sản phẩm!</p>
+				<button class="btn-footer overlay-button">Đăng ký</button>
+			</div>
+			<div class="col-4 col-md">
+				<h5>Thông tin quan trọng</h5>
+				<ul class="list-unstyled text-small">
+					<li><a class="text-muted" href="#">Chính sách giao hàng & đổi trả</a></li>
+					<li><a class="text-muted" href="#">Chính sách bảo mật</a></li>
+					<li><a class="text-muted" href="#">Điều khoản và điều kiện</a></li>
+					<li><a class="text-muted" href="#">Câu hỏi thường gặp</a></li>
+				</ul>
+			</div>
+			<div class="col-2 col-md">
+				<h5>Về chúng tôi</h5>
+				<ul class="list-unstyled text-small">
+					<li><a class="text-muted" href="#">PACHA Shop</a></li>
+					<li><a class="text-muted" href="#">Trang Blog</a></li>
+					<li><a class="text-muted" href="#">Làm việc với PACHA</a></li>
+					<li><a class="text-muted" href="#">Đối tác</a></li>
+				</ul>
+			</div>
+			<div class="col-3 col-md">
+				<h5>Mua sắm cùng chúng tôi</h5>
+				<ul class="list-unstyled text-small">
+					<li><a class="text-muted" href="#">Hướng dẫn sử dụng sản phẩm</a></li>
+					<li><a class="text-muted" href="#">Trao đổi nhượng quyền</a></li>
+					<li><a class="text-muted" href="#">Xem đánh giá sản phẩm</a></li>
+					<li><a class="text-muted" href="#">Trao và nhận - Tặng sản phẩm</a></li>
+					<li><a class="text-muted" href="#">Chương trình đặc sắc</a></li>
+				</ul>
+			</div>
 		</div>
-		<div class="col-2 col-md">
-			<h5>Về chúng tôi</h5>
-			<ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="#">PACHA Shop</a></li>
-				<li><a class="text-muted" href="#">Trang Blog</a></li>
-				<li><a class="text-muted" href="#">Làm việc với PACHA</a></li>
-				<li><a class="text-muted" href="#">Đối tác</a></li>
-			</ul>
+		<div class="row foot-row">
+			<div class="col-12 col-md">
+				<p>
+					© 2023 PACHA SOAP CO<br />
+					<b>Địa chỉ: </b>Đường Mạc Đĩnh Chi, Khu phố Tân Hòa, Phường Đông Hòa, Thành phố Dĩ An, Tỉnh Bình
+					Dương<br />
+					<b>Điện thoại: </b>039576832
+				</p>
+			</div>
 		</div>
-		<div class="col-3 col-md">
-			<h5>Mua sắm cùng chúng tôi</h5>
-			<ul class="list-unstyled text-small">
-				<li><a class="text-muted" href="#">Hướng dẫn sử dụng sản phẩm</a></li>
-				<li><a class="text-muted" href="#">Trao đổi nhượng quyền</a></li>
-				<li><a class="text-muted" href="#">Xem đánh giá sản phẩm</a></li>
-				<li><a class="text-muted" href="#">Trao và nhận - Tặng sản phẩm</a></li>
-				<li><a class="text-muted" href="#">Chương trình đặc sắc</a></li>
-			</ul>
-		</div>
-	</div>
-	<div class="row foot-row">
-		<div class="col-12 col-md">
-			<p>
-				© 2023 PACHA SOAP CO<br/>
-				<b>Địa chỉ: </b>Đường Mạc Đĩnh Chi, Khu phố Tân Hòa, Phường Đông Hòa, Thành phố Dĩ An, Tỉnh Bình Dương<br/>
-				<b>Điện thoại: </b>039576832
-			</p>
-		</div>
-	</div>
-</footer>
+	</footer>
 </body>
+
 </html>

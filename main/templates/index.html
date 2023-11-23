@@ -19,7 +19,7 @@
       {% else %}
       <div class="carousel-item">
       {% endif %}
-        <a href="#" class="image-container">
+        <a href="{% url 'product-list' %}" class="image-container">
           <img src="/media/{{banner.img}}" class="d-block w-100" class="">
           <button class="btn btn-banner overlay-button">Mua ngay</button>
         </a>
@@ -43,7 +43,7 @@
   {% for cate in category_1 %}
     <div class="col-md-4 mb-4">
       <div class="card shadow">
-        <a href="#" class="image-container">
+        <a href="category-product-list/{{cate.id}}" class="image-container">
           <div class="bg-category"></div>
           <div class="content-category">{{cate.title}}</div>
           <button class="btn-category overlay-button">Xem thêm</button>
@@ -55,7 +55,7 @@
   {% for cate in category_2 %}
     <div class="col-md-6 mb-4">
       <div class="card shadow">
-        <a href="#" class="image-container">
+        <a href="category-product-list/{{cate.id}}" class="image-container">
           <div class="bg-category"></div>
           <div class="content-category">{{cate.title}}</div>
           <button class="btn-category overlay-button">Xem thêm</button>
@@ -72,7 +72,7 @@
     <div class="col-md-3 mb-4">
       <div class="card shadow">
         <a href="/product/{{product.slug}}/{{product.id}}" class="image-container">
-          <img src="/media/{{product.productattribute_set.first.image}}" class="image-product" alt="{{product.title}}">
+          <img src="/media/{{product.productattribute_set.first.image}}" class="image-product card-img-top" alt="{{product.title}}">
           <div class="card-body">
             <label class="btn-product">Giáng sinh</label>
             <label class="btn-product">Giảm giá</label>
@@ -130,7 +130,7 @@
     {% for product in data %}
 		<div class="col-md-3 mb-4">
 			<div class="card shadow">
-			  <a href="/product/{{product.slug}}/{{product.id}}"><img src="/media/{{product.productattribute_set.first.image}}" class="card-img-top" alt="{{product.title}}"></a>
+			  <a href="/product/{{product.slug}}/{{product.id}}"><img src="/media/{{product.productattribute_set.first.image}}" class="image-product card-img-top" alt="{{product.title}}"></a>
 			  <div class="card-body">
 			    <h5 class="card-text"><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h5>
           <h6>$ <span class="product-price-{{product.id}}">{{product.productattribute_set.first.price}}</span></h6>

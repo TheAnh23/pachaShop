@@ -7,6 +7,9 @@ from django.template.loader import render_to_string
 from .forms import SignupForm,ReviewAdd,AddressBookForm,ProfileForm
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.decorators import login_required
+from .forms import ContactForm
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 #paypal
 from django.urls import reverse
 from django.conf import settings
@@ -15,7 +18,7 @@ from paypal.standard.forms import PayPalPaymentsForm
 # Home Page
 def home(request):
 	banners=Banner.objects.all().order_by('-id')
-	data=Product.objects.filter(is_featured=True).order_by('-id')
+	data = Product.objects.filter(is_featured=True).order_by('-id')
 	for product in data:
 		product_reviews = ProductReview.objects.filter(product=product)
 		avg_rating = product_reviews.aggregate(avg_rating=Avg('review_rating'))['avg_rating']
@@ -25,7 +28,30 @@ def home(request):
 	category_1=Category.objects.order_by('-id').reverse()[:3]
 	category_2=Category.objects.order_by('-id').reverse()[3:]
 	return render(request,'index.html',{'data':data,'banners':banners,'category_1':category_1,'category_2':category_2,'category':category})
-#hehehee
+# About us
+def about_us(request):
+	return render(request, 'aboutus.html')
+# Blog list
+def blog_list(request):
+	return render(request, 'blog_list.html')
+# Blog detail
+def blog_detail(request):
+	return render(request, 'blog_detail.html')
+# Contact
+def contact(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            subject = form.cleaned_data['subject']
+            message = form.cleaned_data['message']
+            from_email = form.cleaned_data['email']
+            recipient_list = [settings.EMAIL_HOST_USER]
+            send_mail(subject, message, from_email, recipient_list)
+            return render(request, 'contact.html', {'success': True})
+    else:
+        form = ContactForm()
+    return render(request, 'contact.html', {'form': form})
 # Category
 def category_list(request):
     data=Category.objects.all().order_by('-id')
@@ -89,10 +115,9 @@ def product_detail(request,slug,id):
 
 	# Fetch avg rating for reviews
 	avg_reviews = ProductReview.objects.filter(product=product).aggregate(avg_rating=Avg('review_rating'))
-	star = round(avg_reviews['avg_rating'])
-
 	if avg_reviews['avg_rating'] is None or avg_reviews['avg_rating'] == 0:
-		avg_reviews['avg_rating'] = 5.0
+			avg_reviews['avg_rating'] = 5.0
+	star = round(avg_reviews['avg_rating'])
 
 	count_review = ProductReview.objects.filter(product=product).count()
 

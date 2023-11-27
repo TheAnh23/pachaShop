@@ -161,13 +161,13 @@ sup {
 }
 
 a {
-    color: #007bff;
+    color: #000;
     text-decoration: none;
     background-color: transparent
 }
 
 a:hover {
-    color: #0056b3;
+    color: #9B4600;
     text-decoration: underline
 }
 
@@ -228,7 +228,7 @@ th {
 
 label {
     display: inline-block;
-    margin-bottom: .5rem
+    vertical-align: middle;
 }
 
 button {

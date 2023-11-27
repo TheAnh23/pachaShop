@@ -1,7 +1,10 @@
 from django import forms
+from django.contrib.sites.models import Site
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
-from .models import ProductReview,UserAddressBook
+from .models import ProductReview,UserAddressBook,Contact
 
 class SignupForm(UserCreationForm):
 	class Meta:
@@ -25,3 +28,9 @@ class ProfileForm(UserChangeForm):
 	class Meta:
 		model=User
 		fields=('first_name','last_name','email','username')
+
+class ContactForm(forms.ModelForm):
+	class Meta:
+		model=Contact
+		fields=('user','email','message')
+	

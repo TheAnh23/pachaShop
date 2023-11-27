@@ -1,7 +1,9 @@
 from django.db import models
+# from djongo import models
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
 from django.utils import timezone
+from django import forms
 
 # Banner
 class Banner(models.Model):
@@ -176,5 +178,13 @@ class UserAddressBook(models.Model):
 
     class Meta:
         verbose_name_plural='AddressBook'
+
+class Contact(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    email = models.EmailField(max_length=100)
+    message=models.TextField()
+
+    class Meta:
+        verbose_name_plural='Contact'
 
     

@@ -31,7 +31,7 @@ admin.site.register(Image, ImageAdmin)
 class ProductAttributeAdmin(admin.ModelAdmin):
     list_display = ('id', 'product', 'price', 'color', 'size', 'display_images')
     def display_images(self, obj):
-        return mark_safe(' '.join([image.image_tag() for image in obj.images.all()]))
+        return obj.images.first().image_tag()
 admin.site.register(ProductAttribute, ProductAttributeAdmin)
 
 # Order

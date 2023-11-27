@@ -200,29 +200,6 @@ $(document).ready(function(){
 		$('#navbarForm').toggleClass('search-bar');
 		$('.navbar-collapse').toggleClass('d-none');
 	});
-	$(document).on('click','.increase-qty', function() {
-		var input = $(this).siblings('.product-qty-{{data.id}}');
-		var currentValue = parseInt(input.val());
-		var url = '{% url "increase_qty" %}';
-		
-		$.post(url, {}, function(response) {
-			if (response.success) {
-				input.val(currentValue + 1);
-			}
-		});
-	});
-	
-	$(document).on('click','.decrease-qty', function() {
-		var input = $(this).siblings('.product-qty-{{data.id}}');
-		var currentValue = parseInt(input.val());
-		var url = '{% url "decrease_qty" %}';
-		
-		$.post(url, {}, function(response) {
-			if (response.success && currentValue > 1) {
-				input.val(currentValue - 1);
-			}
-		});
-	});
 });
 // End Document.Ready
 

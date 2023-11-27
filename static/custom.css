@@ -158,10 +158,14 @@ button.reviewBtn {
 	text-align: center; color: #9B4600; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word;
 }
 .btn-add-to-card {
-	width: 35%;
 	background: #FFDBC9; border-radius: 100px; overflow: hidden; flex-direction: column; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
 	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 10px; padding-bottom: 10px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
 	text-align: center; color: #763300; font-size: 18px; font-family: Inter; font-weight: 700; line-height: 32px; word-wrap: break-word;
+}
+.btn-add-type {
+	background: #FFDBC9; border-radius: 100px; overflow: hidden; flex-direction: column; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 5px; padding-bottom: 5px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+	text-align: center; color: #763300; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 32px; word-wrap: break-word;
 }
 .btn-buy-now {
 	margin-left: 5%;
@@ -170,3 +174,24 @@ button.reviewBtn {
 	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 10px; padding-bottom: 10px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
 	text-align: center; color: #9B4600; font-size: 18px; font-family: Inter; font-weight: 700; line-height: 32px; word-wrap: break-word;
 }
+.input-group-qty {
+	border-radius: 8px; border: 1px #52443C solid; justify-content: center; align-items: center; display: inline-flex;
+	display: flex; position: relative;
+	margin-left: 2vw;
+}
+.input-group-qty i {margin: 0 10px 0 10px;}
+.input-group-qty .form-control-qty {
+	width: 4vw;
+	color: #362F2C;font-size: 14px;font-family: Inter;font-weight: 600;line-height: 22px; text-align: center;
+	border: transparent;
+	padding: 0;
+	background: transparent;
+}
+.about-us-content {
+	flex-direction: column; justify-content: center; align-items: flex-end; gap: 15px; display: inline-flex;
+	position: absolute; text-align: center;
+	top: 43%;
+	width: 60%; margin-top: 65px; flex-direction: column; justify-content: center; align-items: center; gap: 10px; display: inline-flex;
+}
+.about-us-content strong {color: white; font-size: 54px; font-family: Inter; font-weight: 800; line-height: 58px; word-wrap: break-word}
+.about-us-content p {text-align: center;color: white; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word}

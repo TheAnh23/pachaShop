@@ -607,8 +607,6 @@ pre code {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px
 }
 
 .no-gutters {
@@ -5261,7 +5259,7 @@ input[type=submit].btn-block {
 }
 
 .card-title {
-    margin-bottom: .75rem
+    margin-bottom: .75rem;
 }
 
 .card-subtitle {
@@ -5293,7 +5291,7 @@ input[type=submit].btn-block {
 }
 
 .card-footer {
-    padding: .75rem 1.25rem;
+    padding: 10px;
 }
 
 .card-footer:last-child {

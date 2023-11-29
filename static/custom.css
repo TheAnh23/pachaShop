@@ -32,10 +32,7 @@ p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-h
 	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 10px; padding-bottom: 10px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
 	text-align: center; color: #763300; font-size: 22px; font-family: Inter; font-weight: 700; word-wrap: break-word	
 }
-.btn-banner {
-	top: 1%;
-	left: 3%;
-}
+
 .container {
 	margin-left: 64px;
 	margin-right: 64px;
@@ -48,24 +45,22 @@ p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-h
 	background: linear-gradient(180deg, rgba(51, 18, 0, 0) 0%, #331200 100%)
 }
 .content-category {
-	position: absolute;
-	top: 64%;
-	left: 10%;
 	z-index: 2;
 	color: #FFB68D; 
 	word-wrap: break-word;
 	font-size: 2.5vw;
     font-family: 'Inter';
-    font-weight: 700px;
+    font-weight: 1000px;
+}
+.card-body {
+	padding-top: 250px;
 }
 .btn-category {
 	position: absolute;
 	z-index: 2;
-	top: 78%;
-	left: 10%;
 	background: #763300; border-radius: 100px; overflow: hidden; flex-direction: column; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
 	align-self: stretch; flex: 1 1 0; padding-left: 24px; padding-right: 24px; padding-top: 10px; padding-bottom: 10px; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
-	text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 34px; word-wrap: break-word	
+	text-align: center; color: white; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 34px; word-wrap: break-word; margin-top: 20px;
 }
 .btn-product {
 	width: 90px; height: 23px;
@@ -118,18 +113,18 @@ h4 {
 .content-about-us p {text-align: right; color: white; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word}
 .btn-about-us {top: 200px; right: 0px}
 .aboutproduct {display: inline-flex; position: relative; padding: 40px}
-.aboutproduct img {right: 0; top: 0px; position: relative}
+.aboutproduct img {right: 0; top: 0px; padding:0px; position: relative}
 .content-about-product {
 	flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 28px; display: inline-flex;
 	position: relative;
 	background-color: rgba(248, 235, 230, 1);
 	width: 50%;
-	padding: 100px;
+	padding: 10vw;
 	flex-direction: column; justify-content: center; align-items: right; gap: 10px; display: inline-flex;
 }
-.content-about-product h1 {color: #362F2C; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word}
-.content-about-product strong {color: #9B4600; font-size: 34px; font-family: Inter; font-weight: 700; line-height: 38px; word-wrap: break-word}
-.content-about-product p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-height: 26px; word-wrap: break-word}
+.content-about-product h1 {color: #362F2C; font-size: 2vw; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word}
+.content-about-product strong {color: #9B4600; font-size: 3vw; font-family: Inter; font-weight: 700; margin-bottom:8px; word-wrap: break-word}
+.content-about-product p {color: #362F2C; font-size: 2vw; font-family: Inter; font-weight: 400; line-height: 3vw; word-wrap: break-word}
 /* Footer */
 .header-row {margin-left: 64px;}
 .content-footer strong {color: #9B4600; font-size: 28px; font-family: Inter; font-weight: 700; line-height: 34px; word-wrap: break-word}

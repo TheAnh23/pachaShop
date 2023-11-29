@@ -2,7 +2,6 @@
 {% load static %}
 {% block content %}
 <!-- Home Slider -->
-<div class="row">
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     {% for banner in banners %}
@@ -21,11 +20,12 @@
       <div class="carousel-item">
       {% endif %}
         <a href="{% url 'product-list' %}" class="image-container">
-          <img src="/media/{{banner.img}}" class="d-block w-100" class="">
+          <img src="/media/{{banner.img}}" class="d-block w-100" >
         </a>
-        <div class="carousel-caption d-block">
+        <div class="container carousel-caption d-block ">
           <h1>SẢN PHẨM MÙA THU</h1>
-          <button class="btn btn-banner overlay-button">Mua ngay</button>
+          <p>Quà tặng dành cho cả gia đình</p>
+          <a href="#" class="btn btn-banner overlay-button">Mua ngay</a>
         </div>
       </div>
       {% endfor %}
@@ -40,7 +40,7 @@
     </a>
   </div>
 </div>
-</div>
+
 <div class="row">
   <div class="col">
     <div class="row">
@@ -51,25 +51,36 @@
     </div>
   <div class="row input-group-append">
     {% for cate in category_1 %}
-    <div class="card shadow col-4 mb-4">
-        <a href="category-product-list/{{cate.id}}" class="image-container">
-          <div class="bg-category"></div>
-          <div class="content-category">{{cate.title}}</div>
-          <button class="btn-category overlay-button">Xem thêm</button>
+    <div class="card shadow col-4 mb-4" >
+        <!--<a href="category-product-list/{{cate.id}}" class="image-container" >
+          <div class="bg-category" ></div>
           <img src="/media/{{cate.image}}" class="d-block w-100" alt="cate-image">
-        </a>
+          <div class="card-body">
+          <div class="content-category">{{cate.title}}</div>
+          <a href="#" class="btn-category overlay-button">Xem thêm</a>
+          </div>
+        </a>-->
+        <div class="card-body" style="background-image:url(/media/{{cate.image}}); min-height:400px">
+          <div class="content-category"><b>{{cate.title}}</b></div>
+          <a href="#" class="btn btn-category overlay-button">Xem thêm</a>
+        </div>
       </div>
     {% endfor %}
   </div>
   <div class="row input-group-append">
     {% for cate in category_2 %}
     <div class="card shadow col-6 mb-4">
-        <a href="category-product-list/{{cate.id}}" class="image-container">
+        <!--<a href="category-product-list/{{cate.id}}" class="image-container">
           <div class="bg-category"></div>
           <div class="card-title content-category">{{cate.title}}</div>
-          <button class="btn-category overlay-button">Xem thêm</button>
+          <a href="#" class="btn-category overlay-button">Xem thêm</a>
           <img src="/media/{{cate.image}}" class="d-block w-100" alt="{{cate.title}}">
-        </a>
+        </a>-->
+        <div class="card-body" style="background-image:url(/media/{{cate.image}}); min-height:400px; ">
+          
+          <div class="content-category"><b>{{cate.title}}</b></div>
+          <a href="#" class="btn btn-category overlay-button">Xem thêm</a>
+        </div>
     </div>
     {% endfor %}
   </div>
@@ -139,55 +150,62 @@
       <strong>PACHA SOAP CO.</strong>
       <p>Chúng tôi hoạt động với mục đích vì cộng đồng và chế tạo các sản phẩm thủ công, tự nhiên để hài lòng các giác
         quan và nâng cao sức khỏe</p>
-      <button class="btn btn-about-us overlay-button">Về chúng tôi</button>
+      <a href="#" class="btn btn-about-us overlay-button">Về chúng tôi</a>
     </div>
   </div>
 <!-- About us -->
 </div>
   <!-- About Products -->
   <div>
-  <div class="aboutproduct">
-    <div class="content-about-product">
+  <div class="aboutproduct row">
+    <div class="content-about-product col-6">
+      <div class="row">
       <h1>Từ tự nhiên đến</h1>
       <strong>SẢN PHẨM CỦA CHÚNG TÔI</strong>
       <p>Chúng tôi lùng sục khắp thế giới để tìm nguồn nguyên liệu tự nhiên có chất lượng cao nhất. Điều đó có nghĩa là
         không có bất kỳ hoá chất nguy hại nào xâm nhập vào sản phẩm...</p>
+      </div>
     </div>
-    <img src="{% static '\media\images\aboutproduct.png' %}" alt="aboutproduct">
+    <img src="{% static '\media\images\aboutproduct.png' %}" alt="aboutproduct" class="col-6">
   </div>
 </div>
   <!-- New Products -->
   <div class="row">
-  <h3 class="my-4 border-bottom pb-1">Sản phẩm bán chạy</h3>
-  <div >
-    {% for product in data %}
-    <div class="col-md-3 mb-4">
-      <div class="card shadow">
-        <a href="/product/{{product.slug}}/{{product.id}}"><img
-            src="{{ product.productattribute_set.first.images.first.image.url }}" class="image-product card-img-top"
-            alt="{{product.title}}"></a>
-        <div class="card-body">
-          <h5 class="card-text"><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h5>
-          <h6>$ <span class="product-price-{{product.id}}">{{product.productattribute_set.first.price}}</span></h6>
-        </div>
-        <div class="card-footer">
-          <button class="btn btn-sm btn-primary add-to-cart" data-index="{{product.id}}"><i
-              class="fa fa-shopping-cart"></i></button>
-          {% if user.is_authenticated %}
-          <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i
-              class="fa fa-heart"></i></button>
-          {% else %}
-          <button class="btn btn-sm btn-danger disabled"><i class="fa fa-heart"></i></button>
-          {% endif %}
-          <span class="float-right">
-            4.5/5
-            <i class="fa fa-star text-warning"></i>
-          </span>
+    <div class="col">
+      <div class="row">
+        <div class="col-1"></div>
+        <h3 class="col-10 my-4 border-bottom pb-1">Sản phẩm bán chạy</h3>
+        <div class="col-1"></div>
+      </div>
+    <div class="row">
+      {% for product in data %}
+      <div class="col-md-3 col-6 mb-4">
+        <div class="card shadow">
+          <a href="/product/{{product.slug}}/{{product.id}}"><img
+              src="{{ product.productattribute_set.first.images.first.image.url }}" class="image-product card-img-top"
+              alt="{{product.title}}"></a>
+          <div class="card-body">
+            <h5 class="card-text"><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h5>
+            <h6>$ <span class="product-price-{{product.id}}">{{product.productattribute_set.first.price}}</span></h6>
+          </div>
+          <div class="card-footer">
+            <button class="btn btn-sm btn-primary add-to-cart" data-index="{{product.id}}"><i
+                class="fa fa-shopping-cart"></i></button>
+            {% if user.is_authenticated %}
+            <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i
+                class="fa fa-heart"></i></button>
+            {% else %}
+            <button class="btn btn-sm btn-danger disabled"><i class="fa fa-heart"></i></button>
+            {% endif %}
+            <span class="float-right">
+              4.5/5
+              <i class="fa fa-star text-warning"></i>
+            </span>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
   <p class="my-4 text-center"><a href="{% url 'product-list' %}" class="btn btn-footer btn-sm">Xem thêm</a></p>
 </div>
 </div>

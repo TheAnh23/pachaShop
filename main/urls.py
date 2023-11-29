@@ -8,6 +8,7 @@ urlpatterns=[
     path('',views.home,name='home'),
     path('about-us',views.about_us,name='about-us'),
     path('blog-list',views.blog_list,name='blog-list'),
+    path('onl-payment',views.onl_payment,name='onl-payment'),
     path('blog-detail',views.blog_detail,name='blog-detail'),
     path('contact',views.contact,name='contact'),
     path('search',views.search,name='search'),
@@ -29,6 +30,8 @@ urlpatterns=[
     path('payment-done/', views.payment_done, name='payment_done'),
     path('payment-cancelled/', views.payment_canceled, name='payment_cancelled'),
     path('save-review/<int:pid>',views.save_review, name='save-review'),
+    path('shipment',views.shipment,name='shipment'),
+    path('payment',views.payment,name='payment'),
     # User Section Start
     path('my-dashboard',views.my_dashboard, name='my_dashboard'),
     path('my-orders',views.my_orders, name='my_orders'),

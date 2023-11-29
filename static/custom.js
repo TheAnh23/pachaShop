@@ -219,17 +219,17 @@ $("#addForm").submit(function(e){
 				// End
 
 				// create data for review
-				var _html='<blockquote class="blockquote text-right">';
-				_html+='<small>'+res.data.review_text+'</small>';
+				var _html='<blockquote class="blockquote text-left">';
 				_html+='<footer class="blockquote-footer">'+res.data.user;
 				_html+='<cite title="Source Title">';
 				for(var i=1; i<=res.data.review_rating; i++){
-					_html+='<i class="fa fa-star text-warning"></i>';
+					_html+=`<img src="/static/media/images/icons/star.png" alt='star'>`;
 				}
 				_html+='</cite>';
 				_html+='</footer>';
+				_html+='<small>'+res.data.review_text+'</small>';
 				_html+='</blockquote>';
-				_html+='</hr>';
+				_html+='<hr/>';
 
 				$(".no-data").hide();
 
@@ -240,7 +240,7 @@ $("#addForm").submit(function(e){
 				$("#productReview").modal('hide');
 
 				// AVg Rating
-				$(".avg-rating").text(res.avg_reviews.avg_rating.toFixed(1))
+				// $(".avg-rating").text(res.avg_reviews.avg_rating.toFixed(1))
 			}
 		}
 	});

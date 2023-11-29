@@ -10,13 +10,13 @@
 		<div class="col-md-9">
 			<!-- Products -->
 			<h3 class="mb-4 border-bottom pb-1">
-				Products
+				{{category.title}}
 			</h3>
 			<div class="row">
 				{% for product in data %}
 				<div class="col-md-4 mb-4">
 					<div class="card shadow">
-					  <a href="/product/{{product.slug}}/{{product.id}}"><img src="/media/{{product.productattribute_set.first.image}}" class="card-img-top" alt="{{product.title}}"></a>
+					  <a href="/product/{{product.slug}}/{{product.id}}"><img src="{{ product.productattribute_set.first.images.first.image.url }}" class="card-img-top" alt="{{product.title}}"></a>
 					  <div class="card-body">
 					    <h5 class="card-text"><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h5>
 					    <h6>$ <span class="product-price-{{product.id}}">{{product.productattribute_set.first.price}}</span></h6>

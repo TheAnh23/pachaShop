@@ -87,7 +87,7 @@ h4 {
 	word-wrap: break-word
 }
 .card a {text-decoration: none;}
-.comment {color: #201A17; margin-left: 10px;font-size: 12px; font-family: Inter; font-weight: 400; line-height: 20px; word-wrap: break-word}
+.comment {color: #201A17; margin-left: 10px;font-size: 12px; font-family: Inter; font-weight: 400; word-wrap: break-word}
 .real-price {color: #201A17; font-size: 18px; font-family: Inter; margin-right: 20px;font-weight: 700; line-height: 20px; word-wrap: break-word}
 .promote-price {color: #201A17; font-size: 15px; font-family: Inter; font-weight: 400; text-decoration: line-through; line-height: 20px; word-wrap: break-word}
 .card-inline{display:-ms-flexbox;display:flex;-ms-flex-flow:row wrap;flex-flow:row wrap;-ms-flex-align:center;align-items:center; margin-bottom: 12px;}
@@ -195,3 +195,9 @@ button.reviewBtn {
 }
 .about-us-content strong {color: white; font-size: 54px; font-family: Inter; font-weight: 800; line-height: 58px; word-wrap: break-word}
 .about-us-content p {text-align: center;color: white; font-size: 20px; font-family: Inter; font-weight: 700; line-height: 28px; word-wrap: break-word}
+.table-order {
+	color: #201A17; font-size: 16px; font-family: Inter; font-weight: 700; line-height: 26px; word-wrap: break-word"
+}
+#province, #district, #ward {
+	text-align: left; border: none; width: 100%;color: #52443C;font-size: 14px;font-family: Inter;font-weight: 400;line-height: 20px;
+}

@@ -1,5 +1,55 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-
+<main class="container-fuild">
+    <div class="aboutus">
+        <img src="{% static '/media/images/banners/2.png' %}" class="d-block w-100" alt="aboutus">
+        <div class="about-us-content d-flex mt-0">
+            <strong style="color: white;;font-size: 72px; font-family: Inter; font-weight: 800; line-height: 100px;">CÂU
+                CHUYỆN PHÍA SAU THANH XÀ PHÒNG</strong>
+        </div>
+    </div>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src={% static '/media/images/blog.png' %} alt="..." /></a>
+                    <div class="card-body">
+                        <h2 class="card-title h4">Chiến dịch Net Zero 2030</h2>
+                        <div class="small text-muted">Tuấn Nguyễn, 19/04/2023</div>
+                        <p class="card-text">Chúng tôi đã tham gia chiến dịch Net Zero 2030 và rất vui mừng được trở
+                            thành thành viên của tập đoàn gồm hơn 1.000 công ty đang nỗ lực để đạt được mức phát thải
+                            carbon ròng bằng 0.</p>
+                        <a class="btn btn-primary mb-3" href="{% url 'blog-detail' %}">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src={% static '/media/images/blog.png' %} alt="..." /></a>
+                    <div class="card-body">
+                        <h2 class="card-title h4">Chiến dịch Net Zero 2030</h2>
+                        <div class="small text-muted">Tuấn Nguyễn, 19/04/2023</div>
+                        <p class="card-text">Chúng tôi đã tham gia chiến dịch Net Zero 2030 và rất vui mừng được trở
+                            thành thành viên của tập đoàn gồm hơn 1.000 công ty đang nỗ lực để đạt được mức phát thải
+                            carbon ròng bằng 0.</p>
+                        <a class="btn btn-primary mb-3" href="blog_detail.html">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <a href="#!"><img class="card-img-top" src={% static '/media/images/blog.png' %} alt="..." /></a>
+                    <div class="card-body">
+                        <h2 class="card-title h4">Chiến dịch Net Zero 2030</h2>
+                        <div class="small text-muted">Tuấn Nguyễn, 19/04/2023</div>
+                        <p class="card-text">Chúng tôi đã tham gia chiến dịch Net Zero 2030 và rất vui mừng được trở
+                            thành thành viên của tập đoàn gồm hơn 1.000 công ty đang nỗ lực để đạt được mức phát thải
+                            carbon ròng bằng 0.</p>
+                        <a class="btn btn-primary mb-3" href="blog_detail.html">Xem thêm</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</main>
 {% endblock %}

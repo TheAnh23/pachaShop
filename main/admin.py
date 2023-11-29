@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.utils.safestring import mark_safe
-from .models import Banner,Category,Brand,Color,Size,Product,ProductAttribute,CartOrder,CartOrderItems,ProductReview,Wishlist,UserAddressBook,Image
+from .models import Banner,Category,Brand,Color,Size,Product,ProductAttribute,CartOrder,CartOrderItems,ProductReview,Wishlist,UserAddressBook,Image,Contact,BlogList,Shipment,Payment
 
 # admin.site.register(Banner)
 admin.site.register(Brand)
@@ -8,7 +8,7 @@ admin.site.register(Size)
 
 
 class BannerAdmin(admin.ModelAdmin):
-	list_display=('alt_text','image_tag')
+	list_display=('alt_text','display_media')
 admin.site.register(Banner,BannerAdmin)
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -54,5 +54,22 @@ admin.site.register(Wishlist)
 
 
 class UserAddressBookAdmin(admin.ModelAdmin):
-	list_display=('user','address','status')
+	list_display=('user','province','district','ward','street','status')
 admin.site.register(UserAddressBook,UserAddressBookAdmin)
+
+
+class ContactAdmin(admin.ModelAdmin):
+	list_display=('id','user','email','message')
+admin.site.register(Contact,ContactAdmin)
+
+class BlogListAdmin(admin.ModelAdmin):
+    list_display = ('image','title','author','created_at')
+admin.site.register(BlogList,BlogListAdmin)
+
+class ShipmentAdmin(admin.ModelAdmin):
+    list_display = ('image','title','price')
+admin.site.register(Shipment,ShipmentAdmin)
+
+class PaymentAdmin(admin.ModelAdmin):
+    list_display = ('image','title')
+admin.site.register(Payment,PaymentAdmin)

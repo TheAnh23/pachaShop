@@ -1,0 +1,59 @@
+{% load static %}
+<div class="container">
+    <h4 class="my-4 text-left border-bottom pb-1">Tổng số sản phẩn: {{totalitems}}</h4>
+    <table class="table table-bordered table-order">
+        {% for product_id,item in cart_data.items %}
+        <tr>
+            <td><img src="/media/{{item.image}}" width="56" /></td>
+            <td>
+                <p><a href="/product/{{item.title|slugify}}/{{product_id}}">{{item.title}}</a></p>
+            </td>
+            <td>
+                x{{item.qty}}
+            </td>
+            <td>{% widthratio item.price 1 item.qty %} &#8363;</td>
+        </tr>
+        {% endfor %}
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <input type="text" class="w-100" placeholder="Mã giảm giá hoặc thẻ quà tặng">
+                </td>
+                <td>
+                    <div class="btn btn-danger">Áp dụng</div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">Tạm tính</td>
+                <td>{{total_amt}}  &#8363;</td>
+            </tr>
+            <tr>
+                <td colspan="3">Vận chuyển</td>
+                <td>
+                    {% if fake_ship_price %} {{fake_ship_price}}
+                    {% else %}
+                    {% endif %}
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">Giảm giá</td>
+                <td id="discount-value"></td>
+            </tr>
+            <tr>
+                <td colspan="3">TỔNG CỘNG</td>
+                <td id='total_sum'>{% if fake_ship_price %} 500000
+                    {% else %}
+                    {% endif %}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+<script>
+    $(document).ready(function() {
+        $('div.btn.btn-danger').click(function() {
+            // Thay đổi giá trị của phần tử có ID "discount-value"
+            $('#discount-value').text('20000.0 ₫');
+            $('#total_sum').text('280000.0 ₫');
+        });
+    });
+</script>

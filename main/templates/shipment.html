@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="container my-4" id="cartList">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered w-100">
+                <tr>
+                    <td>Liên hệ</td>
+                    <td>0654126745</td>
+                    <td>
+                        <a href="#">Thay đổi</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Địa chỉ</td>
+                    <td>KTX Khu B, ĐHQG TP.HCM, đường Mạc Đĩnh Chi, Dĩ An, Bình Dương</td>
+                    <td>
+                        <a href="#">Thay đổi</a>
+                    </td>
+                </tr>
+            </table>
+            <h4 class="my-4 text-left border-bottom pb-1">PHƯƠNG THỨC VẬN CHUYỂN</h4>
+            <div class="card">
+                <div class="card-body review-list">
+                    {% if ships %}
+                        {% for ship_type in ships %}
+                        <div class="row mb-0 pb-0">
+                            <div class="col-1">
+                                <input type="radio" name="shipment" id="{{ship_type.title}}">
+                            </div>
+                            <div class="col-md-1">
+                                <img src="{{ship_type.image.url}}" alt="">
+                            </div>
+                            <div class="col-8">
+                                <strong>{{ship_type.title}}</strong>
+                                <p>{{ship_type.description}}</p>
+                            </div>
+                            <div class="col-2">{{ship_type.price}}</div>
+                        </div>
+                        <hr/>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-data">Không hỗ trợ vận chuyển</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a class="btn btn-danger" href="{% url 'checkout' %}">Quay lại trang thông tin giao hàng</a>
+                <a class="btn btn-primary" href="{% url 'payment' %}">Tiếp tục đến trang vận chuyển</a>
+            </div>
+        </div>
+        <div class="col-6 flex-column">
+            {% include "order_updated.html" %}
+        </div>
+    </div>
+</main>
+{% endblock %}

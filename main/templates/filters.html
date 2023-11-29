@@ -1,23 +1,23 @@
 {% load static %}
 <script type="text/javascript" src="{% static 'product-filter.js' %}"></script>
-			<h3 class="mb-4 border-bottom pb-1">Filters</h3>
+			<h3 class="mb-4 border-bottom pb-1">Lọc sản phẩm</h3>
 			<!-- Price Filter -->
 			<div class="card mb-4">
-				<h6 class="card-header">Price</h6>
+				<h6 class="card-header">Giá</h6>
 				<div class="list-group list-group-flush">
 					<li class="list-group-item">
 						<input type="range" value="{{minMaxPrice.price__min}}" max={{minMaxPrice.price__max}} min={{minMaxPrice.price__min}} id="rangeInput" oninput="maxPrice.value=this.value" />
 						<p>{{minMaxPrice.price__min}}-{{minMaxPrice.price__max}}</p>
 					</li>
 					<li class="list-group-item">
-						Max: <input type="number" value="{{minMaxPrice.price__min}}" max={{minMaxPrice.price__max}} min={{minMaxPrice.price__min}} class="form-control" id="maxPrice" onkeyup="rangeInput.value=this.value" id="maxPrice" />
-						<button id="priceFilterBtn" class="btn btn-info btn-sm mt-1">Filter</button>
+						Lớn nhất: <input type="number" value="{{minMaxPrice.price__min}}" max={{minMaxPrice.price__max}} min={{minMaxPrice.price__min}} class="form-control" id="maxPrice" onkeyup="rangeInput.value=this.value" id="maxPrice" />
+						<button id="priceFilterBtn" class="btn btn-info btn-sm mt-1">Lọc</button>
 					</li>
 				</div>
 			</div>
 			<!-- Filter 1 -->
 			<div class="card mb-4">
-				<h6 class="card-header">Colors</h6>
+				<h6 class="card-header">Màu sắc</h6>
 				<div class="list-group list-group-flush">
 					{% for color in colors %}
 					<li class="list-group-item">
@@ -29,7 +29,7 @@
 			</div>
 			<!-- Filter 2 -->
 			<div class="card mb-4">
-				<h6 class="card-header">Categories</h6>
+				<h6 class="card-header">Loại sản phẩm</h6>
 				<div class="list-group list-group-flush">
 					{% for cat in cats %}
 					<li class="list-group-item">
@@ -41,7 +41,7 @@
 			</div>
 			<!-- Filter 3 -->
 			<div class="card mb-4">
-				<h6 class="card-header">Brands</h6>
+				<h6 class="card-header">Thương hiệu</h6>
 				<div class="list-group list-group-flush">
 					{% for brand in brands %}
 					<li class="list-group-item">
@@ -53,7 +53,7 @@
 			</div>
 			<!-- Filter 3 -->
 			<div class="card mb-4">
-				<h6 class="card-header">Sizes</h6>
+				<h6 class="card-header">Kích thước</h6>
 				<div class="list-group list-group-flush">
 					{% for size in sizes %}
 					<li class="list-group-item">

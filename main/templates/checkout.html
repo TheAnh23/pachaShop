@@ -2,128 +2,139 @@
 {% load static %}
 {% block content %}
 <main class="container my-4" id="cartList">
-	<!-- Featured Products -->
-	<div class="row">
-		<div class="col-md-9">
-			<h3 class="my-4 border-bottom pb-1">Cart ({{totalitems}})</h3>
-			<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Product</th>
-				<th>Qty</th>
-				<th>Price</th>
-				<th>Total</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for product_id,item in cart_data.items %}
-			<tr>
-				<td>
-					<img src="/media/{{item.image}}" width="50" />
-					<p><a href="/product/{{item.title|slugify}}/{{product_id}}">{{item.title}}</a></p>
-				</td>
-				<td>
-					{{item.qty}}
-				</td>
-				<td>$ {{item.price}}</td>
-				<td>$ {% widthratio item.price 1 item.qty %}</td>
-			</tr>
-			{% endfor %}
-		</tbody>
-		<tfoot>
-			<tr>
-				<td colspan="2"></td>
-				<th>Total</th>
-				<th>Rs. {{total_amt}}</th>
-			</tr>
-			{% if totalitems %}
-			<tr>
-				<td colspan="4" align="right">
-					{{form.render}}
-				</td>
-			</tr>
-			{% endif %}
-		</tfoot>
-	</table>
-		</div>
-		<div class="col-md-3">
-			<h3 class="my-4 border-bottom pb-1">Selected Address</h3>
-			<div class="card">
-				<div class="card-body">
-					<p>{{address.address}}</p>
+	<form method="POST">
+		<div class="row">
+			<div class="col-6 flex-column">
+				<h4 class="my-4 text-left border-bottom pb-1">THÔNG TIN LIÊN HỆ</h4>
+				<fieldset>
+					<legend for="email">Email</legend>
+					<input type="text" id="email">
+				</fieldset>
+				<fieldset>
+					<legend for="mobile">Số điện thoại</legend>
+					<input type="text" id="mobile">
+				</fieldset>
+				<h4 class="my-4 text-left border-bottom pb-1">THÔNG TIN NHẬN HÀNG</h4>
+				<fieldset>
+					<legend>Họ và tên (*)</legend>
+					<input type="text" id="recipient">
+				</fieldset>
+				<div class="col-md-6 p-0">
+					<fieldset>
+						<legend for="province">Tỉnh/Thành phố (*)</legend>
+						<select id="province">
+							<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
+						</select>
+					</fieldset>
+					<fieldset>
+						<legend>Quận/Huyện (*)</legend>
+						<select id="district">
+							<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
+						</select>
+					</fieldset>
+					<fieldset>
+						<legend>Phường/Xã (*)</legend>
+						<select id="ward">
+							<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
+						</select>
+					</fieldset>
+					<fieldset>
+						<legend>Số nhà/Đường (*)</legend>
+						<input type="text">
+					</fieldset>
+				</div>
+				<fieldset>
+					<legend for="note">Ghi chú đơn hàng (nếu có)</legend>
+					<input type="text" id="note">
+				</fieldset>
+				<div class="text-center mt-3">
+					<button class="btn btn-danger">Quay lại trang thông tin giao hàng</button>
+					<a class="btn btn-primary" href="{% url 'shipment' %}">Tiếp tục đến trang vận chuyển</a>
 				</div>
 			</div>
+			<div class="col-6 flex-column">
+				{% include "order_updated.html" %}
+			</div>
 		</div>
-	</div>
+	</form>
 </main>
+<script type="text/javascript">
+	// Gọi API để lấy dữ liệu tỉnh
+	fetch('https://provinces.open-api.vn/api/p/')
+		.then(response => response.json())
+		.then(data => {
+			const provinceSelect = document.getElementById('province');
+
+			// Thêm các tùy chọn tỉnh vào dropdown
+			data.forEach(province => {
+				const option = document.createElement('option');
+				option.value = province.code;
+				option.text = province.name;
+				provinceSelect.appendChild(option);
+			});
+
+			// Lắng nghe sự kiện khi tỉnh được chọn
+			provinceSelect.addEventListener('change', function () {
+				const selectedProvinceCode = this.value;
+
+				// Xóa các tùy chọn huyện và xã hiện có
+				document.getElementById('district').innerHTML = '<option value="">-- Chọn --</option>';
+				document.getElementById('ward').innerHTML = '<option value="">-- Chọn --</option>';
+
+				// Hiển thị danh sách huyện ngay khi tỉnh được chọn
+				fetchDistrictData(selectedProvinceCode.code);
+			});
+		});
+
+	function fetchDistrictData(provinceCode) {
+		// Sử dụng liên kết API mặc định của 'https://provinces.open-api.vn'
+		fetch('https://provinces.open-api.vn/api/d/')
+			.then(response => response.json())
+			.then(data => {
+				const districtSelect = document.getElementById('district');
+
+				// Lọc danh sách huyện dựa trên mã tỉnh
+				const filteredDistricts = data.filter(district => district.parent_code === provinceCode);
+
+				// Thêm các tùy chọn huyện vào dropdown
+				filteredDistricts.forEach(district => {
+					const option = document.createElement('option');
+					option.value = district.code;
+					option.text = district.name;
+					districtSelect.appendChild(option);
+				});
+
+				// Lắng nghe sự kiện khi huyện được chọn
+				districtSelect.addEventListener('change', function () {
+					const selectedDistrictCode = this.value;
+
+					// Xóa các tùy chọn xã hiện có
+					document.getElementById('ward').innerHTML = '<option value="">Chọn xã</option>';
+
+					// Hiển thị danh sách xã ngay khi huyện được chọn
+					fetchWardData(selectedDistrictCode.code);
+				});
+			});
+	}
+
+	function fetchWardData(districtCode) {
+		// Sử dụng liên kết API mặc định của 'https://provinces.open-api.vn'
+		fetch('https://provinces.open-api.vn/api/w/')
+			.then(response => response.json())
+			.then(data => {
+				const wardSelect = document.getElementById('ward');
+
+				// Lọc danh sách xã dựa trên mã huyện
+				const filteredWards = data.filter(ward => ward.parent_code === districtCode);
+
+				// Thêm các tùy chọn xã vào dropdown
+				filteredWards.forEach(ward => {
+					const option = document.createElement('option');
+					option.value = ward.code;
+					option.text = ward.name;
+					wardSelect.appendChild(option);
+				});
+			});
+	}
+</script>
 {% endblock %}
-{% block content_checkout %}
-     <div class="row" style="width: 100%;">
-		<div class="col-lg-6">
-			<div class="box-element" id="form-wrapper">
-				<form id="form">
-					<div id="user-info">
-						<div class="form-field">
-							<input required class="form-control" type="text" name="name" placeholder="Name..">
-						</div>
-						<div class="form-field">
-							<input required class="form-control" type="email" name="email" placeholder="Email..">
-						</div>
-                        <div class="form-field">
-							<input required class="form-control" type="phone" name="phone" placeholder="Phone..">
-						</div>
-					</div>
-					
-					<div id="shipping-info">
-						<hr>
-						<p>Shipping Information:</p>
-						<hr>
-						<div class="form-field">
-							<input class="form-control" type="text" name="address" placeholder="Address..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="city" placeholder="City..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="state" placeholder="State..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
-						</div>
-						<div class="form-field">
-							<input class="form-control" type="text" name="country" placeholder="Zip code..">
-						</div>
-					</div>
-
-					<hr>
-					<input id="form-button" class="btn btn-success btn-block" type="submit" value="Continue">
-				</form>
-			</div>
-
-			<br>
-			<div class="box-element hidden" id="payment-info">
-				<small>Paypal Options</small>
-			</div>
-			
-		</div>
-
-		<div class="col-lg-6">
-			<div class="box-element">
-				<a  class="btn btn-outline-dark" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
-				<hr>
-				<h3>Order Summary</h3>
-				<hr>
-				{% for item in items %}
-				<div class="cart-row">
-					<div style="flex:2"><img class="row-image" src="{{item.product.ImageURL}}"></div>
-					<div style="flex:2"><p>{{item.product.name}}</p></div>
-					<div style="flex:1"><p>{{item.product.price}}</p></div>
-					<div style="flex:1"><p>x{{item.quantity}}</p></div>
-				</div>
-				{% endfor %}
-				<h5>Items:   {{order.get_cart_items}}</h5>
-				<h5>Total:   {{order.get_cart_total}}</h5>
-			</div>
-		</div>
-	</div>
-{% endblock content_checkout %}

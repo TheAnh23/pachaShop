@@ -20,19 +20,18 @@
       <div class="carousel-item">
         {% endif %}
         <a href="{% url 'product-list' %}" class="image-container">
-          <img src="/media/{{banner.img}}" class="d-block w-100" class="">
-          <button class="btn btn-banner overlay-button">Mua ngay</button>
+          {{ banner.display_media|safe }}
         </a>
       </div>
       {% endfor %}
     </div>
     <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
+      <span class="sr-only">Trước</span>
     </a>
     <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
       <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
+      <span class="sr-only">Sau</span>
     </a>
   </div>
 </div>
@@ -80,9 +79,9 @@
           <label class="btn-product">Giảm giá</label>
           <h4><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h4>
           <div class="card-inline">
-            {% if product.avg_rating %}
-            <img src="{% static '/media/images/icons/star.png' %}" alt="star">
-            {% endif %}
+            {% for star in product.star|ljust:product.star %}
+            <img src="{% static '/media/images/icons/star.png' %}" alt="star" />
+            {% endfor %}
             <div class="comment">{{product.avg_rating}}</div>
           </div>
           <div class="card-inline">
@@ -91,9 +90,15 @@
           </div>
         </div>
         <div class="card-footer">
+          <input type="hidden" class="product-image-{{product.id}}"
+            value="{{product.productattribute_set.first.images.first.image.url}}" />
+          <input type="hidden" class="product-id-{{product.id}}" value="{{product.id}}" />
+          <input type="hidden" class="product-title-{{product.id}}" value="{{product.title}}" />
+          <input type="hidden" value="1" class="form-control-qty product-qty-{{product.id}}"
+            id="productQty_{{product.id}}" />
           <button class="btn-product-footer">Xem thêm</button>
-          <button class="btn btn-sm btn-primary add-to-cart" data-index="{{product.id}}"><i
-              class="fa fa-shopping-cart"></i></button>
+          <button class="btn btn-sm btn-primary add-to-cart" data-index="{{product.id}}" type="button"
+            id="addToCartBtn"><i class="fa fa-shopping-cart"></i></button>
           {% if user.is_authenticated %}
           <button class="btn btn-sm btn-danger add-wishlist" data-product="{{product.id}}"><i
               class="fa fa-heart"></i></button>

@@ -24,12 +24,12 @@
 				<h5 class="real-price"><span class="product-price-{{data.id}}">{{data.productattribute_set.first.price}}</span></h5>
 				<h5 class="promote-price">190,000</h5>
 			</div>
-			<div class="container-fluid pb-1">
+			<div class="container-fluid mb-4">
 				<button class="btn btn-add-type">1 thanh</button>
 				<button class="btn btn-add-type">5 thanh</button>
 				<button class="btn btn-add-type">10 thanh</button>
 			</div>
-			<div class="container-fluid d-flex">
+			<div class="container-fluid d-flex mb-4">
 				<label for="productQty">Số lượng:</label>
 				<div class="input-group-qty"> 
 					<i class="fas fa-minus decrease-qty" onclick="changeQuantity('decrease', '{{data.id}}')"></i>
@@ -38,7 +38,7 @@
 				</div>
 			</div>
 			<div class="container-fluid mb-3 mt-3">
-			  	<input type="hidden" class="product-image-{{data.id}}" value="{{data.productattribute_set.first.image}}" />
+			  	<input type="hidden" class="product-image-{{data.id}}" value="{{data.productattribute_set.first.images.first.image.url}}" />
 		        <input type="hidden" class="product-id-{{data.id}}" value="{{data.id}}" />
 		        <input type="hidden" class="product-title-{{data.id}}" value="{{data.title}}" />
 				<button class="btn btn-primary btn-add-to-card btn-sm add-to-cart" data-index="{{data.id}}" type="button" id="addToCartBtn">Thêm vào giỏ hàng</button>
@@ -109,7 +109,7 @@
 	<!-- Review -->
 	<div class="row d-flex justify-content-center">
 		<div class="container row w-50 text-center resultReview">
-			<div class="col-md-6 mb-4">
+			<div class="col-md-12 mb-4">
 				<strong>{{avg_reviews.avg_rating}}</strong><br/>
 				{% for star in star|ljust:star %}
 					<img src="{% static '/media/images/icons/star.png' %}" alt="star"/>
@@ -118,19 +118,19 @@
 					<span class="avg-rating">({{count_reviews}})</span>	
 				</div>
 			</div>
-			<div class="col-md-6">
+			<!-- <div class="col-md-6">
 				<div class="row">
-					<div>
+					<div class="d-flex">
 						<img src="{% static '/media/images/icons/star.png' %}" alt="star">
 						<div class="count">
 							<div class="count-bar"></div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</div> -->
 		</div>
 	</div>
-	<div class="row d-flex justify-content-center">
+	<div class="row d-flex justify-content-center mb-4">
 		<button data-toggle="modal" data-target="#productReview" type="button" class="reviewBtn">Viết bình luận</button>
 	</div>
 
@@ -172,7 +172,7 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
-	        <h5 class="modal-title" id="exampleModalLabel">Viết bình luận</h5>
+	        <h5 class="modal-title text-center" id="exampleModalLabel">Viết bình luận</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 	          <span aria-hidden="true">&times;</span>
 	        </button>
@@ -180,12 +180,12 @@
 	      <div class="modal-body">
 	      	<form method="post" id="addForm" action="{% url 'save-review' data.id %}">
 	      		{% csrf_token %}
-		      	<table class="table table-bordered">
+		      	<table class="table table-bordered text-center">
 		      		{{reviewForm.as_table}}
 		      		<tr>
 		      			<td colspan="2">
-		      				<button type="submit" class="btn btn-primary">Submit</button>
-		      				<input type="reset" class="btn btn-dark" value="Reset" id="reset" />
+		      				<button type="submit" class="btn btn-footer">Gửi</button>
+		      				<input type="reset" class="btn btn-footer bg-dark" value="Xóa" id="reset" />
 		      			</td>
 		      		</tr>
 		      	</table>
@@ -198,21 +198,20 @@
 	<!-- Product Review End -->
 	{% endif %}
 	<div class="card">
-		<div class="container border-bottom 1px">
+		<div class="card-head border-bottom 1px d-flex">
 			<strong>Bình luận</strong>
 			<div class="comment">
 				<span class="avg-rating">({{count_reviews}})</span>	
 			</div>
 		</div>
 		<div class="card-body review-list">
-			<!-- Detail -->
 			{% if reviews %}
 				{% for review in reviews %}
 				<blockquote class="blockquote text-left">
 					<footer class="blockquote-footer">{{review.user}} 
 					<cite title="Source Title">
 						{% for star in review.review_rating|ljust:review.review_rating %}
-						<i class="fa fa-star text-warning"></i>
+						<img src="{% static '/media/images/icons/star.png' %}" alt="star"/>
 						{% endfor %}
 					</cite>
 					</footer>

@@ -3,18 +3,23 @@ from django.db import models
 from django.utils.html import mark_safe
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django import forms
+import requests
 
 # Banner
 class Banner(models.Model):
-    img=models.ImageField(upload_to="banner_imgs/")
-    alt_text=models.CharField(max_length=300)
+    media = models.FileField(upload_to="banner_media/",null=True)
+    alt_text = models.CharField(max_length=300)
 
     class Meta:
-        verbose_name_plural='1. Banners'
+        verbose_name_plural = '1. Banners'
 
-    def image_tag(self):
-        return mark_safe('<img src="%s" width="100" />' % (self.img.url))
+    def display_media(self):
+        if self.media:
+            if self.media.name.endswith('.mp4'):
+                return mark_safe(f'<video width="100%" loop autoplay controlslist="nodownload"><source src="{self.media.url}" type="video/mp4"></video>')
+            elif self.media.name.endswith(('.webp','.jpg')):
+                return mark_safe(f'<img src="{self.media.url}" style="width: 100%;" />')
+        return "No media"
 
     def __str__(self):
         return self.alt_text
@@ -141,6 +146,23 @@ class CartOrderItems(models.Model):
     def image_tag(self):
         return mark_safe('<img src="/media/%s" width="50" height="50" />' % (self.image))
 
+# Blog List
+class BlogList(models.Model):
+    image = models.ImageField(upload_to="blog_imgs/", null=True, blank=True)
+    author = models.CharField(max_length=100)
+    title = models.CharField(max_length=255)
+    content = models.TextField(max_length=10000)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural='10. Blog List'
+
+    def __str__(self):
+        return self.title
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="100" />' % (self.img.url))
+
 # Product Review
 RATING=(
     (1,'1'),
@@ -172,19 +194,57 @@ class Wishlist(models.Model):
 # AddressBook
 class UserAddressBook(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
-    mobile=models.CharField(max_length=50,null=True)
-    address=models.TextField()
+    province = models.CharField(max_length=100, null=True)
+    district = models.CharField(max_length=100, null=True)
+    ward = models.CharField(max_length=100, null=True)
+    street=models.CharField(max_length=200, null=True)
     status=models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural='AddressBook'
+        verbose_name_plural='Address Book'
 
+
+# Contact
 class Contact(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.EmailField(max_length=100)
     email = models.EmailField(max_length=100)
     message=models.TextField()
 
     class Meta:
         verbose_name_plural='Contact'
+
+class Shipment(models.Model):
+    image = models.ImageField(upload_to="ship_imgs/", null=True, blank=True)
+    title = models.CharField(max_length=200,null=True)
+    description = models.CharField(max_length=200,null=True)
+    price = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural='Shipment'
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
+    def __str__(self):
+        return self.title
+
+class Payment(models.Model):
+    image = models.ImageField(upload_to="payment_imgs/", null=True, blank=True)
+    title = models.CharField(max_length=200,null=True)
+
+    class Meta:
+        verbose_name_plural='Payment'
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
+    def __str__(self):
+        return self.title
+
+
+    
+
+
+
 
     

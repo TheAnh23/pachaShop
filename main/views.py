@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
+import requests
 from django.http import JsonResponse,HttpResponse
-from .models import Banner,Category,Brand,Product,ProductAttribute,CartOrder,CartOrderItems,ProductReview,Wishlist,UserAddressBook
+from .models import Banner,Category,Brand,Product,ProductAttribute,CartOrder,CartOrderItems,ProductReview,Wishlist,UserAddressBook,BlogList,Shipment,Payment
 from django.db.models import Max,Min,Count,Avg
 from django.db.models.functions import ExtractMonth
 from django.template.loader import render_to_string
@@ -8,6 +9,7 @@ from .forms import SignupForm,ReviewAdd,AddressBookForm,ProfileForm
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.decorators import login_required
 from .forms import ContactForm
+from django.shortcuts import redirect
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 #paypal
@@ -17,12 +19,14 @@ from django.views.decorators.csrf import csrf_exempt
 from paypal.standard.forms import PayPalPaymentsForm
 # Home Page
 def home(request):
-	banners=Banner.objects.all().order_by('-id')
+	banners=Banner.objects.all().order_by('-id').reverse()
 	data = Product.objects.filter(is_featured=True).order_by('-id')
 	for product in data:
 		product_reviews = ProductReview.objects.filter(product=product)
 		avg_rating = product_reviews.aggregate(avg_rating=Avg('review_rating'))['avg_rating']
-		product.avg_rating = avg_rating or 0
+		star = round(avg_rating) if avg_rating else 5.0
+		product.avg_rating = round(avg_rating, 1) if avg_rating else 5.0
+		product.star = star
 
 	category=Category.objects.order_by('-id')
 	category_1=Category.objects.order_by('-id').reverse()[:3]
@@ -33,7 +37,8 @@ def about_us(request):
 	return render(request, 'aboutus.html')
 # Blog list
 def blog_list(request):
-	return render(request, 'blog_list.html')
+    blog_list = BlogList.objects.all()
+    return render(request, 'blog_list.html', {'blog_list': blog_list})
 # Blog detail
 def blog_detail(request):
 	return render(request, 'blog_detail.html')
@@ -43,12 +48,12 @@ def contact(request):
         form = ContactForm(request.POST)
         if form.is_valid():
             form.save()
-            subject = form.cleaned_data['subject']
+            user = form.cleaned_data['user']
             message = form.cleaned_data['message']
             from_email = form.cleaned_data['email']
             recipient_list = [settings.EMAIL_HOST_USER]
-            send_mail(subject, message, from_email, recipient_list)
-            return render(request, 'contact.html', {'success': True})
+            send_mail(user, message, from_email, recipient_list)
+            return redirect('contact')
     else:
         form = ContactForm()
     return render(request, 'contact.html', {'form': form})
@@ -66,6 +71,12 @@ def brand_list(request):
 def product_list(request):
 	total_data=Product.objects.count()
 	data=Product.objects.all().order_by('-id')[:3]
+	for product in data:
+		product_reviews = ProductReview.objects.filter(product=product)
+		avg_rating = product_reviews.aggregate(avg_rating=Avg('review_rating'))['avg_rating']
+		star = round(avg_rating) if avg_rating else 5.0
+		product.avg_rating = round(avg_rating, 1) if avg_rating else 5.0
+		product.star = star
 	min_price=ProductAttribute.objects.aggregate(Min('price'))
 	max_price=ProductAttribute.objects.aggregate(Max('price'))
 	return render(request,'product_list.html',
@@ -100,7 +111,7 @@ def product_detail(request,slug,id):
 	colors=ProductAttribute.objects.filter(product=product).values('color__id','color__title','color__color_code').distinct()
 	sizes=ProductAttribute.objects.filter(product=product).values('size__id','size__title','price','color__id').distinct()
 	reviewForm=ReviewAdd()
-
+	
 	# Check
 	canAdd=True
 	reviewCheck=ProductReview.objects.filter(user=request.user,product=product).count()
@@ -117,6 +128,7 @@ def product_detail(request,slug,id):
 	avg_reviews = ProductReview.objects.filter(product=product).aggregate(avg_rating=Avg('review_rating'))
 	if avg_reviews['avg_rating'] is None or avg_reviews['avg_rating'] == 0:
 			avg_reviews['avg_rating'] = 5.0
+	avg_reviews['avg_rating'] = round(avg_reviews['avg_rating'],1)
 	star = round(avg_reviews['avg_rating'])
 
 	count_review = ProductReview.objects.filter(product=product).count()
@@ -389,7 +401,7 @@ def save_address(request):
 			if 'status' in request.POST:
 				UserAddressBook.objects.update(status=False)
 			saveForm.save()
-			msg='Data has been saved'
+			msg='Địa chỉ đã được lưu'
 	form=AddressBookForm
 	return render(request, 'user/add-address.html',{'form':form,'msg':msg})
 
@@ -426,3 +438,66 @@ def update_address(request,id):
 			msg='Data has been saved'
 	form=AddressBookForm(instance=address)
 	return render(request, 'user/update-address.html',{'form':form,'msg':msg})
+
+# Shippment
+def shipment(request):
+	ship = Shipment.objects.all()
+	total_amt=0
+	totalAmt=0
+	if 'cartdata' in request.session:
+		for p_id,item in request.session['cartdata'].items():
+			totalAmt+=int(item['qty'])*float(item['price'])
+		# Order
+		order=CartOrder.objects.create(
+				user=request.user,
+				total_amt=totalAmt
+			)
+		# End
+		for p_id,item in request.session['cartdata'].items():
+			total_amt+=int(item['qty'])*float(item['price'])
+			# OrderItems
+			items=CartOrderItems.objects.create(
+				order=order,
+				invoice_no='INV-'+str(order.id),
+				item=item['title'],
+				image=item['image'],
+				qty=item['qty'],
+				price=item['price'],
+				total=float(item['qty'])*float(item['price'])
+				)
+			# End
+	return render(request, 'shipment.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'ships':ship})
+#Payment
+def payment(request):
+	ship = Shipment.objects.first()
+	fake_ship_price = '50000.0 ₫'
+	payments = Payment.objects.all()
+	total_amt=0
+	totalAmt=0
+	if 'cartdata' in request.session:
+		for p_id,item in request.session['cartdata'].items():
+			totalAmt+=int(item['qty'])*float(item['price'])
+		# Order
+		order=CartOrder.objects.create(
+				user=request.user,
+				total_amt=totalAmt
+			)
+		# End
+		for p_id,item in request.session['cartdata'].items():
+			total_amt+=int(item['qty'])*float(item['price'])
+			# OrderItems
+			items=CartOrderItems.objects.create(
+				order=order,
+				invoice_no='INV-'+str(order.id),
+				item=item['title'],
+				image=item['image'],
+				qty=item['qty'],
+				price=item['price'],
+				total=float(item['qty'])*float(item['price'])
+				)
+			# End
+	return render(request, 'payment.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'payments':payments,'ships':ship,'fake_ship_price':fake_ship_price})
+
+# Onl-Payment
+def onl_payment(request):
+	return render(request, 'onl_payment.html')

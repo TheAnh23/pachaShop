@@ -52,9 +52,7 @@ p {color: #362F2C; font-size: 16px; font-family: Inter; font-weight: 400; line-h
     font-family: 'Inter';
     font-weight: 1000px;
 }
-.card-body {
-	padding-top: 250px;
-}
+
 .btn-category {
 	position: absolute;
 	z-index: 2;

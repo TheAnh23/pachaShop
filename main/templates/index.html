@@ -60,7 +60,7 @@
           <a href="#" class="btn-category overlay-button">Xem thêm</a>
           </div>
         </a>-->
-        <div class="card-body" style="background-image:url(/media/{{cate.image}}); min-height:400px">
+        <div class="card-body" style="background-image:url(/media/{{cate.image}}); min-height:400px; padding-top: 250px;">
           <div class="content-category"><b>{{cate.title}}</b></div>
           <a href="#" class="btn btn-category overlay-button">Xem thêm</a>
         </div>
@@ -76,7 +76,7 @@
           <a href="#" class="btn-category overlay-button">Xem thêm</a>
           <img src="/media/{{cate.image}}" class="d-block w-100" alt="{{cate.title}}">
         </a>-->
-        <div class="card-body" style="background-image:url(/media/{{cate.image}}); min-height:400px; ">
+        <div class="card-body" style="background-image:url(/media/{{cate.image}}); min-height:400px; padding-top: 250px;">
           
           <div class="content-category"><b>{{cate.title}}</b></div>
           <a href="#" class="btn btn-category overlay-button">Xem thêm</a>
@@ -139,10 +139,17 @@
             {% endfor %}
         </div>
       </div>
+      <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4 align-self-center">
+          <p class="my-4 text-center"><a href="{% url 'product-list' %}" class="btn btn-footer btn-sm">Xem thêm</a></p>
+        </div>
+        <div class="col-4"></div>
+      </div>
 </div>
 </div>
 <div class="row">
-  <p class="my-4 text-center"><a href="{% url 'product-list' %}" class="btn btn-footer btn-sm">Xem thêm</a></p>
+  
   <div class="aboutus">
     <img src="{% static '\media\images\aboutus.png' %}" class="d-block w-100" alt="aboutus">
     <div class="bg-about-us"></div>

@@ -4,7 +4,7 @@
     <table class="table table-bordered table-order">
         {% for product_id,item in cart_data.items %}
         <tr>
-            <td><img src="/media/{{item.image}}" width="56" /></td>
+            <td><img src="{{item.image}}" width="56" /></td>
             <td>
                 <p><a href="/product/{{item.title|slugify}}/{{product_id}}">{{item.title}}</a></p>
             </td>

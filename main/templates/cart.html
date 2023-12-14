@@ -16,9 +16,11 @@
 		<tbody>
 			{% for product_id,item in cart_data.items %}
 			<tr>
-				<td>
-					<img src="{{item.images.first.image.url}}" width="56" />
-					<p><a href="/product/{{item.title|slugify}}/{{product_id}}">{{item.title}}</a></p>
+				<td style="display: flex; align-items: center;">
+					<img src="{{item.image}}" width="56" style="margin-right: 10px;" />
+					<div style="display: flex; flex-direction: column; align-items: center;">
+						<p style="margin: 0;"><a href="/product/{{item.title|slugify}}/{{product_id}}">{{item.title}}</a></p>
+					</div>
 				</td>
 				<td>
 					<input type="number" class="text-center product-qty-{{product_id}}" value="{{item.qty}}" style="vertical-align: bottom;" />

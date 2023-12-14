@@ -8,7 +8,7 @@ from .models import ProductReview,UserAddressBook,Contact
 class SignupForm(UserCreationForm):
 	class Meta:
 		model=User
-		fields=('full_name','email','username','password1','password2')
+		fields=('first_name','last_name','email','username','password1','password2')
 
 # Review Add Form
 class ReviewAdd(forms.ModelForm):
@@ -20,13 +20,13 @@ class ReviewAdd(forms.ModelForm):
 class AddressBookForm(forms.ModelForm):
 	class Meta:
 		model=UserAddressBook
-		fields=('province','district','ward','street','status')
+		fields=('email','phone','recipient','province','district','ward','street','status','note')
 
 # ProfileEdit
 class ProfileForm(UserChangeForm):
 	class Meta:
 		model=User
-		fields=('full_name','email','username')
+		fields=('first_name','last_name','email','username')
 
 class ContactForm(forms.ModelForm):
 	class Meta:

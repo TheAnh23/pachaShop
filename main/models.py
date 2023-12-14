@@ -11,7 +11,7 @@ class Banner(models.Model):
     alt_text = models.CharField(max_length=300)
 
     class Meta:
-        verbose_name_plural = '1. Banners'
+        verbose_name_plural = 'Banners'
 
     def display_media(self):
         if self.media:
@@ -30,7 +30,7 @@ class Category(models.Model):
     image=models.ImageField(upload_to="cat_imgs/")
 
     class Meta:
-        verbose_name_plural='2. Categories'
+        verbose_name_plural='Categories'
 
     def image_tag(self):
         return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
@@ -44,7 +44,7 @@ class Brand(models.Model):
     image=models.ImageField(upload_to="brand_imgs/")
 
     class Meta:
-        verbose_name_plural='3. Brands'
+        verbose_name_plural='Brands'
 
     def __str__(self):
         return self.title
@@ -55,7 +55,7 @@ class Color(models.Model):
     color_code=models.CharField(max_length=100)
 
     class Meta:
-        verbose_name_plural='4. Colors'
+        verbose_name_plural='Colors'
 
     def color_bg(self):
         return mark_safe('<div style="width:30px; height:30px; background-color:%s"></div>' % (self.color_code))
@@ -68,7 +68,7 @@ class Size(models.Model):
     title=models.CharField(max_length=100)
 
     class Meta:
-        verbose_name_plural='5. Sizes'
+        verbose_name_plural='Sizes'
 
     def __str__(self):
         return self.title
@@ -88,7 +88,7 @@ class Product(models.Model):
     is_featured=models.BooleanField(default=False)
 
     class Meta:
-        verbose_name_plural='6. Products'
+        verbose_name_plural='Products'
 
     def __str__(self):
         return self.title
@@ -109,7 +109,7 @@ class ProductAttribute(models.Model):
     images = models.ManyToManyField(Image)
 
     class Meta:
-        verbose_name_plural = '7. ProductAttributes'
+        verbose_name_plural = 'ProductAttributes'
 
     def __str__(self):
         return self.product.title
@@ -128,7 +128,7 @@ class CartOrder(models.Model):
     order_status=models.CharField(choices=status_choice,default='process',max_length=150)
 
     class Meta:
-        verbose_name_plural='8. Orders'
+        verbose_name_plural='Orders'
 
 # OrderItems
 class CartOrderItems(models.Model):
@@ -141,7 +141,7 @@ class CartOrderItems(models.Model):
     total=models.FloatField()
 
     class Meta:
-        verbose_name_plural='9. Order Items'
+        verbose_name_plural='Order Items'
 
     def image_tag(self):
         return mark_safe('<img src="/media/%s" width="50" height="50" />' % (self.image))
@@ -155,7 +155,7 @@ class BlogList(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name_plural='10. Blog List'
+        verbose_name_plural='Blog List'
 
     def __str__(self):
         return self.title
@@ -194,10 +194,14 @@ class Wishlist(models.Model):
 # AddressBook
 class UserAddressBook(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
+    email=models.CharField(max_length=100, null=True)
+    phone=models.CharField(max_length=100, null=True)
+    recipient=models.CharField(max_length=100, null=True)
     province = models.CharField(max_length=100, null=True)
     district = models.CharField(max_length=100, null=True)
     ward = models.CharField(max_length=100, null=True)
     street=models.CharField(max_length=200, null=True)
+    note=models.CharField(max_length=200, null=True)
     status=models.BooleanField(default=False)
 
     class Meta:

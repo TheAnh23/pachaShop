@@ -253,7 +253,8 @@ def signup(request):
 			user=authenticate(username=username,password=pwd)
 			login(request, user)
 			return redirect('home')
-	form=SignupForm
+	else:
+		form=SignupForm
 	return render(request, 'registration/signup.html',{'form':form})
 
 
@@ -284,21 +285,20 @@ def checkout(request):
 				total=float(item['qty'])*float(item['price'])
 				)
 			# End
-		# Process Payment
-		host = request.get_host()
-		paypal_dict = {
-		    'business': settings.PAYPAL_RECEIVER_EMAIL,
-		    'amount': total_amt,
-		    'item_name': 'OrderNo-'+str(order.id),
-		    'invoice': 'INV-'+str(order.id),
-		    'currency_code': 'USD',
-		    'notify_url': 'http://{}{}'.format(host,reverse('paypal-ipn')),
-		    'return_url': 'http://{}{}'.format(host,reverse('payment_done')),
-		    'cancel_return': 'http://{}{}'.format(host,reverse('payment_cancelled')),
-		}
-		form = PayPalPaymentsForm(initial=paypal_dict)
-		address=UserAddressBook.objects.filter(user=request.user,status=True).first()
-		return render(request, 'checkout.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'form':form,'address':address})
+	msg=None
+	if request.method=='POST':
+		form=AddressBookForm(request.POST)
+		if form.is_valid():
+			saveForm=form.save(commit=False)
+			saveForm.user=request.user
+			if 'status' in request.POST:
+				UserAddressBook.objects.update(status=False)
+			saveForm.save()
+			msg='Địa chỉ đã được lưu'
+		else:
+			form=AddressBookForm
+		# address=UserAddressBook.objects.filter(user=request.user,status=True).first()
+	return render(request, 'checkout.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'form':form,'msg':msg})
 
 @csrf_exempt
 def payment_done(request):

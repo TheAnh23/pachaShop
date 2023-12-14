@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main class="container my-4" id="cartList">
+<div class="container my-4" id="cartList">
 	<form method="POST">
+		{% csrf_token %}
 		<div class="row">
 			<div class="col-6 flex-column">
 				<h4 class="my-4 text-left border-bottom pb-1">THÔNG TIN LIÊN HỆ</h4>
@@ -10,46 +11,56 @@
 					<legend for="email">Email</legend>
 					<input type="text" id="email">
 				</fieldset>
-				<fieldset>
-					<legend for="mobile">Số điện thoại</legend>
-					<input type="text" id="mobile">
+				<fieldset class="my-4">
+					<legend for="phone">Số điện thoại</legend>
+					<input type="text" id="phone">
 				</fieldset>
 				<h4 class="my-4 text-left border-bottom pb-1">THÔNG TIN NHẬN HÀNG</h4>
 				<fieldset>
-					<legend>Họ và tên (*)</legend>
+					<legend for="recipient">Họ và tên (*)</legend>
 					<input type="text" id="recipient">
 				</fieldset>
-				<div class="col-md-6 p-0">
-					<fieldset>
-						<legend for="province">Tỉnh/Thành phố (*)</legend>
-						<select id="province">
-							<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
-						</select>
-					</fieldset>
-					<fieldset>
-						<legend>Quận/Huyện (*)</legend>
-						<select id="district">
-							<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
-						</select>
-					</fieldset>
-					<fieldset>
-						<legend>Phường/Xã (*)</legend>
-						<select id="ward">
-							<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
-						</select>
-					</fieldset>
-					<fieldset>
-						<legend>Số nhà/Đường (*)</legend>
-						<input type="text">
-					</fieldset>
+				<div class="row my-4">
+					<div class="col-md-6">
+						<fieldset>
+							<legend for="province">Tỉnh/Thành phố (*)</legend>
+							<select id="province">
+								<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
+							</select>
+						</fieldset>
+					</div>
+					<div class="col-md-6">
+						<fieldset>
+							<legend>Quận/Huyện (*)</legend>
+							<select id="district">
+								<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
+							</select>
+						</fieldset>
+					</div>
 				</div>
-				<fieldset>
+				<div class="row my-4">
+					<div class="col-md-6">
+						<fieldset>
+							<legend for="ward">Phường/Xã (*)</legend>
+							<select id="ward">
+								<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
+							</select>
+						</fieldset>
+					</div>
+					<div class="col-md-6">
+						<fieldset>
+							<legend for="street">Số nhà/Đường (*)</legend>
+							<input type="text" id="street">
+						</fieldset>
+					</div>
+				</div>
+				<fieldset class="my-4">
 					<legend for="note">Ghi chú đơn hàng (nếu có)</legend>
 					<input type="text" id="note">
 				</fieldset>
-				<div class="text-center mt-3">
-					<button class="btn btn-danger">Quay lại trang thông tin giao hàng</button>
-					<a class="btn btn-primary" href="{% url 'shipment' %}">Tiếp tục đến trang vận chuyển</a>
+				<div class="text-center mt-3 my-4">
+					<a class="btn btn-danger" href="{% url 'cart' %}">Quay lại trang thông tin giao hàng</a>
+					<a type="submit" class="btn btn-primary" href="{% url 'shipment' %}">Tiếp tục đến trang vận chuyển</a>
 				</div>
 			</div>
 			<div class="col-6 flex-column">
@@ -57,7 +68,7 @@
 			</div>
 		</div>
 	</form>
-</main>
+</div>
 <script type="text/javascript">
 	// Gọi API để lấy dữ liệu tỉnh
 	fetch('https://provinces.open-api.vn/api/p/')

@@ -616,8 +616,6 @@ pre code {
     display: flex;
     -ms-flex-wrap: wrap;
     flex-wrap: wrap;
-    margin-right: -15px;
-    margin-left: -15px
 }
 
 .no-gutters {
@@ -5270,7 +5268,7 @@ input[type=submit].btn-block {
 }
 
 .card-title {
-    margin-bottom: .75rem
+    margin-bottom: .75rem;
 }
 
 .card-subtitle {
@@ -5302,7 +5300,7 @@ input[type=submit].btn-block {
 }
 
 .card-footer {
-    padding: .75rem 1.25rem;
+    padding: 10px;
 }
 
 .card-footer:last-child {
@@ -7017,7 +7015,8 @@ a.close.disabled {
 }
 
 .carousel {
-    position: relative
+    position: relative;
+    padding: 0px;
 }
 
 .carousel.pointer-event {
@@ -7210,14 +7209,13 @@ a.close.disabled {
 
 .carousel-caption {
     position: absolute;
-    right: 15%;
-    bottom: 20px;
-    left: 15%;
+    right: 0;
+    bottom: 0;
+    left: 0;
     z-index: 10;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding-bottom: 150px;
+    padding-left: 150px;
     color: #fff;
-    text-align: center
 }
 
 @-webkit-keyframes spinner-border {

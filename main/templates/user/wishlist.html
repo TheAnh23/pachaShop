@@ -23,7 +23,7 @@
 						<tr>
 							<td><a href="/product/{{wl.product.slug}}/{{wl.product.id}}">{{wl.product.title}}</a></td>
 							<td>
-								<img width="100" src="/media/{{wl.product.productattribute_set.first.image}}" alt="{{wl.product.title}}">
+								<img width="100" src="{{wl.product.productattribute_set.first.images.first.image.url}}" alt="{{wl.product.title}}">
 							</td>
 							<td>{{wl.product.productattribute_set.first.price}}</td>
 						</tr>

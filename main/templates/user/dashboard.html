@@ -18,12 +18,12 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
-	const labels = {{ monthNumber | safe}};
+	const labels = {{ dayNumber | safe }};
 	const data = {
 		labels: labels,
 		datasets: [{
-			label: 'Orders By Month',
-			backgroundColor: 'rgb(255, 99, 132)',
+			label: 'Số lượng đơn hàng theo ngày',
+			backgroundColor: '#9B4600',
 			borderColor: 'rgb(255, 99, 132)',
 			data: {{ totalOrders }},
 	  }]
@@ -36,7 +36,7 @@
 	};
 
 	var myChart = new Chart(
-		document.getElementById('Biểu đồ'),
+		document.getElementById('myChart'),
 		config
 	);
 

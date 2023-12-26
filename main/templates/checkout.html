@@ -2,65 +2,60 @@
 {% load static %}
 {% block content %}
 <div class="container my-4" id="cartList">
-	<form method="POST">
+	<form method="POST" id="checkoutForm" action="{% url 'checkout' %}">
 		{% csrf_token %}
 		<div class="row">
 			<div class="col-6 flex-column">
 				<h4 class="my-4 text-left border-bottom pb-1">THÔNG TIN LIÊN HỆ</h4>
 				<fieldset>
-					<legend for="email">Email</legend>
-					<input type="text" id="email">
+					<legend><label for="id_email">Email</label></legend>
+					{{ form.email }}
 				</fieldset>
 				<fieldset class="my-4">
-					<legend for="phone">Số điện thoại</legend>
-					<input type="text" id="phone">
+					<legend><label for="id_phone">Số điện thoại</label></legend>
+					{{ form.phone }}
 				</fieldset>
 				<h4 class="my-4 text-left border-bottom pb-1">THÔNG TIN NHẬN HÀNG</h4>
 				<fieldset>
-					<legend for="recipient">Họ và tên (*)</legend>
-					<input type="text" id="recipient">
+					<legend><label for="id_recipient">Họ và tên (*)</label></legend>
+					{{ form.recipient }}
 				</fieldset>
 				<div class="row my-4">
 					<div class="col-md-6">
 						<fieldset>
-							<legend for="province">Tỉnh/Thành phố (*)</legend>
-							<select id="province">
-								<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
-							</select>
+							<legend for="id_province">Tỉnh/Thành phố (*)</legend>
+							{{ form.province }}
 						</fieldset>
 					</div>
 					<div class="col-md-6">
 						<fieldset>
-							<legend>Quận/Huyện (*)</legend>
-							<select id="district">
-								<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
-							</select>
+							<legend for="id_district">Quận/Huyện (*)</legend>
+							{{ form.district }}
 						</fieldset>
 					</div>
 				</div>
 				<div class="row my-4">
 					<div class="col-md-6">
 						<fieldset>
-							<legend for="ward">Phường/Xã (*)</legend>
-							<select id="ward">
-								<option value="" selected style="font-style: italic; text-align: center;">-- Chọn --</option>
-							</select>
+							<legend for="id_ward">Phường/Xã (*)</legend>
+							{{ form.ward }}
 						</fieldset>
 					</div>
 					<div class="col-md-6">
 						<fieldset>
-							<legend for="street">Số nhà/Đường (*)</legend>
-							<input type="text" id="street">
+							<legend for="id_street">Số nhà/Đường (*)</legend>
+							{{ form.street }}
 						</fieldset>
 					</div>
 				</div>
 				<fieldset class="my-4">
-					<legend for="note">Ghi chú đơn hàng (nếu có)</legend>
-					<input type="text" id="note">
+					<legend for="id_note">Ghi chú đơn hàng (nếu có)</legend>
+					{{ form.note }}
 				</fieldset>
 				<div class="text-center mt-3 my-4">
-					<a class="btn btn-danger" href="{% url 'cart' %}">Quay lại trang thông tin giao hàng</a>
-					<a type="submit" class="btn btn-primary" href="{% url 'shipment' %}">Tiếp tục đến trang vận chuyển</a>
+					<a class="btn btn-dark" href="{% url 'cart' %}">Quay lại</a>
+					<button type="submit" class="btn btn-danger">Lưu thông tin</button>
+					<a href="{% url 'shipment' %}" class="btn btn-primary">Tiếp tục</a>
 				</div>
 			</div>
 			<div class="col-6 flex-column">
@@ -70,82 +65,76 @@
 	</form>
 </div>
 <script type="text/javascript">
-	// Gọi API để lấy dữ liệu tỉnh
-	fetch('https://provinces.open-api.vn/api/p/')
-		.then(response => response.json())
-		.then(data => {
-			const provinceSelect = document.getElementById('province');
+	document.addEventListener("DOMContentLoaded", function () {
+		const provinceSelect = document.getElementById('id_province');
+		const districtSelect = document.getElementById('id_district');
+		const wardSelect = document.getElementById('id_ward');
 
-			// Thêm các tùy chọn tỉnh vào dropdown
-			data.forEach(province => {
-				const option = document.createElement('option');
-				option.value = province.code;
-				option.text = province.name;
-				provinceSelect.appendChild(option);
+		// Gọi API để lấy dữ liệu tỉnh
+		fetch('https://provinces.open-api.vn/api/p/')
+			.then(response => response.json())
+			.then(data => {
+				// Thêm các tùy chọn tỉnh vào dropdown
+				data.forEach(province => {
+					const option = document.createElement('option');
+					option.value = province.code;
+					option.text = province.name;
+					provinceSelect.appendChild(option);
+				});
 			});
 
-			// Lắng nghe sự kiện khi tỉnh được chọn
-			provinceSelect.addEventListener('change', function () {
-				const selectedProvinceCode = this.value;
+		// Lắng nghe sự kiện khi tỉnh được chọn
+		provinceSelect.addEventListener('change', function () {
+			const selectedProvinceCode = this.value;
 
-				// Xóa các tùy chọn huyện và xã hiện có
-				document.getElementById('district').innerHTML = '<option value="">-- Chọn --</option>';
-				document.getElementById('ward').innerHTML = '<option value="">-- Chọn --</option>';
+			// Xóa các tùy chọn huyện và xã hiện có
+			districtSelect.innerHTML = '<option value="">-- Chọn --</option>';
+			wardSelect.innerHTML = '<option value="">-- Chọn --</option>';
 
-				// Hiển thị danh sách huyện ngay khi tỉnh được chọn
-				fetchDistrictData(selectedProvinceCode.code);
-			});
+			// Hiển thị danh sách huyện ngay khi tỉnh được chọn
+			fetchDistrictData(selectedProvinceCode);
 		});
 
-	function fetchDistrictData(provinceCode) {
-		// Sử dụng liên kết API mặc định của 'https://provinces.open-api.vn'
-		fetch('https://provinces.open-api.vn/api/d/')
-			.then(response => response.json())
-			.then(data => {
-				const districtSelect = document.getElementById('district');
+		function fetchDistrictData(provinceCode) {
+			// Sử dụng liên kết API mặc định của 'https://provinces.open-api.vn'
+			fetch(`https://provinces.open-api.vn/api/d/?parent_code=${provinceCode}`)
+				.then(response => response.json())
+				.then(data => {
+					// Thêm các tùy chọn huyện vào dropdown
+					data.forEach(district => {
+						const option = document.createElement('option');
+						option.value = district.code;
+						option.text = district.name;
+						districtSelect.appendChild(option);
+					});
 
-				// Lọc danh sách huyện dựa trên mã tỉnh
-				const filteredDistricts = data.filter(district => district.parent_code === provinceCode);
+					// Lắng nghe sự kiện khi huyện được chọn
+					districtSelect.addEventListener('change', function () {
+						const selectedDistrictCode = this.value;
 
-				// Thêm các tùy chọn huyện vào dropdown
-				filteredDistricts.forEach(district => {
-					const option = document.createElement('option');
-					option.value = district.code;
-					option.text = district.name;
-					districtSelect.appendChild(option);
+						// Xóa các tùy chọn xã hiện có
+						wardSelect.innerHTML = '<option value="">Chọn xã</option>';
+
+						// Hiển thị danh sách xã ngay khi huyện được chọn
+						fetchWardData(selectedDistrictCode);
+					});
 				});
+		}
 
-				// Lắng nghe sự kiện khi huyện được chọn
-				districtSelect.addEventListener('change', function () {
-					const selectedDistrictCode = this.value;
-
-					// Xóa các tùy chọn xã hiện có
-					document.getElementById('ward').innerHTML = '<option value="">Chọn xã</option>';
-
-					// Hiển thị danh sách xã ngay khi huyện được chọn
-					fetchWardData(selectedDistrictCode.code);
+		function fetchWardData(districtCode) {
+			// Sử dụng liên kết API mặc định của 'https://provinces.open-api.vn'
+			fetch(`https://provinces.open-api.vn/api/w/?parent_code=${districtCode}`)
+				.then(response => response.json())
+				.then(data => {
+					// Thêm các tùy chọn xã vào dropdown
+					data.forEach(ward => {
+						const option = document.createElement('option');
+						option.value = ward.code;
+						option.text = ward.name;
+						wardSelect.appendChild(option);
+					});
 				});
-			});
-	}
-
-	function fetchWardData(districtCode) {
-		// Sử dụng liên kết API mặc định của 'https://provinces.open-api.vn'
-		fetch('https://provinces.open-api.vn/api/w/')
-			.then(response => response.json())
-			.then(data => {
-				const wardSelect = document.getElementById('ward');
-
-				// Lọc danh sách xã dựa trên mã huyện
-				const filteredWards = data.filter(ward => ward.parent_code === districtCode);
-
-				// Thêm các tùy chọn xã vào dropdown
-				filteredWards.forEach(ward => {
-					const option = document.createElement('option');
-					option.value = ward.code;
-					option.text = ward.name;
-					wardSelect.appendChild(option);
-				});
-			});
-	}
+		}
+	});
 </script>
 {% endblock %}

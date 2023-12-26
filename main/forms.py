@@ -20,7 +20,7 @@ class ReviewAdd(forms.ModelForm):
 class AddressBookForm(forms.ModelForm):
 	class Meta:
 		model=UserAddressBook
-		fields=('email','phone','recipient','province','district','ward','street','status','note')
+		fields=('email','phone','recipient','province','district','ward','street','note')
 
 # ProfileEdit
 class ProfileForm(UserChangeForm):
@@ -32,4 +32,7 @@ class ContactForm(forms.ModelForm):
 	class Meta:
 		model=Contact
 		fields=('user','email','message')
+
+class VoucherForm(forms.Form):
+    code = forms.CharField(label='Mã voucher', max_length=50)
 	

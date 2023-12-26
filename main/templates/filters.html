@@ -1,9 +1,21 @@
 {% load static %}
 <script type="text/javascript" src="{% static 'product-filter.js' %}"></script>
-			<h3 class="mb-4 border-bottom pb-1">Lọc sản phẩm</h3>
+			<h4 class="mb-4 border-bottom pb-1">Bộ lọc tìm kiếm</h4>
+			<!-- Filter 2 -->
+			<div class="card mb-4">
+				<h6 class="card-header">DANH MỤC SẢN PHẨM</h6>
+				<div class="list-group list-group-flush">
+					{% for cat in cats %}
+					<li class="list-group-item">
+						<input class="filter-checkbox" data-filter="category" value="{{cat.category__id}}" type="checkbox" />&nbsp;
+						{{cat.category__title}}
+					</li>
+					{% endfor %}
+				</div>
+			</div>
 			<!-- Price Filter -->
 			<div class="card mb-4">
-				<h6 class="card-header">Giá</h6>
+				<h6 class="card-header">GIÁ</h6>
 				<div class="list-group list-group-flush">
 					<li class="list-group-item">
 						<input type="range" value="{{minMaxPrice.price__min}}" max={{minMaxPrice.price__max}} min={{minMaxPrice.price__min}} id="rangeInput" oninput="maxPrice.value=this.value" />
@@ -15,45 +27,21 @@
 					</li>
 				</div>
 			</div>
-			<!-- Filter 1 -->
+			<!-- Filter 3 -->
 			<div class="card mb-4">
-				<h6 class="card-header">Màu sắc</h6>
+				<h6 class="card-header">BỘ SƯU TẬP</h6>
 				<div class="list-group list-group-flush">
-					{% for color in colors %}
+					{% for collection in collections %}
 					<li class="list-group-item">
-						<input class="filter-checkbox" data-filter="color" value="{{color.color__id}}" type="checkbox" />&nbsp;
-						<button class="btn" style="background-color: {{color.color__color_code}}; margin-top: -5px;"></button>
-					</li>
-					{% endfor %}
-				</div>
-			</div>
-			<!-- Filter 2 -->
-			<div class="card mb-4">
-				<h6 class="card-header">Loại sản phẩm</h6>
-				<div class="list-group list-group-flush">
-					{% for cat in cats %}
-					<li class="list-group-item">
-						<input class="filter-checkbox" data-filter="category" value="{{cat.category__id}}" type="checkbox" />&nbsp;
-						{{cat.category__title}}
+						<input class="filter-checkbox" data-filter="category" value="{{collection.collection__id}}" type="checkbox" />&nbsp;
+						{{collection.collection__title}}
 					</li>
 					{% endfor %}
 				</div>
 			</div>
 			<!-- Filter 3 -->
 			<div class="card mb-4">
-				<h6 class="card-header">Thương hiệu</h6>
-				<div class="list-group list-group-flush">
-					{% for brand in brands %}
-					<li class="list-group-item">
-						<input class="filter-checkbox" data-filter="brand" value="{{brand.brand__id}}" type="checkbox" />&nbsp;
-						{{brand.brand__title}}
-					</li>
-					{% endfor %}
-				</div>
-			</div>
-			<!-- Filter 3 -->
-			<div class="card mb-4">
-				<h6 class="card-header">Kích thước</h6>
+				<h6 class="card-header">COMBO</h6>
 				<div class="list-group list-group-flush">
 					{% for size in sizes %}
 					<li class="list-group-item">

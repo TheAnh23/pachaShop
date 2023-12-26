@@ -13,11 +13,11 @@
 				<table class="table-bordered table">
 					<thead>
 						<tr>
-							<th>Inv no</th>
-							<th>Item</th>
-							<th>Qty</th>
-							<th>Price</th>
-							<th>Total</th>
+							<th>Hóa đơn</th>
+							<th>Sản phẩm</th>
+							<th>Số lượng</th>
+							<th>Giá</th>
+							<th>Thành tiền</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -25,7 +25,7 @@
 						<tr>
 							<td>{{item.invoice_no}}</td>
 							<td>
-								<p><img src="/media/{{item.image}}" width="80" /></p>
+								<p><img src="{{item.image}}" width="80" /></p>
 								{{item.item}}
 							</td>
 							<td>{{item.qty}}</td>

@@ -17,15 +17,18 @@
         <tfoot>
             <tr>
                 <td colspan="3">
-                    <input type="text" class="w-100" placeholder="Mã giảm giá hoặc thẻ quà tặng">
+                    <form method="post" id="voucher-form">
+                        {% csrf_token %}
+                        {{ voucherform.as_p }}
                 </td>
                 <td>
-                    <div class="btn btn-danger">Áp dụng</div>
+                    <button type="submit" class="btn btn-primary" id="apply-voucher">Áp dụng</button>
                 </td>
+                </form>
             </tr>
             <tr>
                 <td colspan="3">Tạm tính</td>
-                <td>{{total_amt}}  &#8363;</td>
+                <td>{{total_amt}} &#8363;</td>
             </tr>
             <tr>
                 <td colspan="3">Vận chuyển</td>
@@ -49,11 +52,23 @@
     </table>
 </div>
 <script>
-    $(document).ready(function() {
-        $('div.btn.btn-danger').click(function() {
+    $(document).ready(function () {
+        $('div.btn.btn-danger').click(function () {
             // Thay đổi giá trị của phần tử có ID "discount-value"
             $('#discount-value').text('20000.0 ₫');
             $('#total_sum').text('280000.0 ₫');
         });
     });
+    $('#apply-voucher').click(function () {
+            $.ajax({
+                type: 'POST',
+                data: $('#voucher-form').serialize(),
+                success: function (data) {
+                    $('#discount-value').text(data.new_price);
+                },
+                error: function () {
+                    // Xử lý lỗi nếu có
+                }
+            });
+        });
 </script>

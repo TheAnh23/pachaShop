@@ -40,11 +40,10 @@ class Category(models.Model):
 
 # Brand
 class Brand(models.Model):
-    title=models.CharField(max_length=100)
-    image=models.ImageField(upload_to="brand_imgs/")
+    title = models.CharField(max_length=100)
 
     class Meta:
-        verbose_name_plural='Brands'
+        verbose_name_plural = 'Brands'
 
     def __str__(self):
         return self.title
@@ -63,6 +62,16 @@ class Color(models.Model):
     def __str__(self):
         return self.title
 
+# Collection
+class Collection(models.Model):
+    title=models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural='Collections'
+
+    def __str__(self):
+        return self.title
+    
 # Size
 class Size(models.Model):
     title=models.CharField(max_length=100)
@@ -83,7 +92,7 @@ class Product(models.Model):
     using=models.TextField(default='')
     benefit=models.TextField(default='')
     category=models.ForeignKey(Category,on_delete=models.CASCADE)
-    brand=models.ForeignKey(Brand,on_delete=models.CASCADE)
+    collection=models.ManyToManyField(Collection)
     status=models.BooleanField(default=True)
     is_featured=models.BooleanField(default=False)
 
@@ -106,6 +115,7 @@ class ProductAttribute(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     size = models.ForeignKey(Size, on_delete=models.CASCADE)
     price = models.PositiveIntegerField(default=0)
+    discount = models.PositiveBigIntegerField(default=0)
     images = models.ManyToManyField(Image)
 
     class Meta:
@@ -202,7 +212,6 @@ class UserAddressBook(models.Model):
     ward = models.CharField(max_length=100, null=True)
     street=models.CharField(max_length=200, null=True)
     note=models.CharField(max_length=200, null=True)
-    status=models.BooleanField(default=False)
 
     class Meta:
         verbose_name_plural='Address Book'
@@ -245,6 +254,22 @@ class Payment(models.Model):
     def __str__(self):
         return self.title
 
+class Voucher(models.Model):
+    code = models.CharField(max_length=10,null=True)
+    detail = models.CharField(max_length=150, null=True)
+    discount_percent = models.IntegerField()
+    valid_from = models.DateTimeField()
+    valid_to = models.DateTimeField()
+
+    class Meta:
+            verbose_name_plural='Voucher'
+
+    def is_valid(self):
+        from django.utils import timezone
+        return self.valid_from <= timezone.now() <= self.valid_to
+
+    def __str__(self):
+        return self.code
 
     
 

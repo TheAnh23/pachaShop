@@ -1,19 +1,38 @@
+{% load static %}
 {% for product in data %}
 <div class="col-lg-4 col-md-6 mb-4 product-box">
 	<div class="card shadow">
-	  <a href="/product/{{product.slug}}/{{product.id}}"><img src="/media/{{product.productattribute_set.first.image}}" class="card-img-top" alt="{{product.title}}"></a>
-	  <div class="card-body">
-	    <h5 class="card-text"><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h5>
-	    <h6>$ {{product.productattribute_set.first.price}}</h6>
-	  </div>
-	  <div class="card-footer">
-	  	<button class="btn btn-sm btn-primary"><i class="fa fa-shopping-cart"></i></button>
-	  	<button class="btn btn-sm btn-danger"><i class="fa fa-heart"></i></button>
-	  	<span class="float-right">
-	  		4.5/5
-	  		<i class="fa fa-star text-warning"></i>
-	  	</span>
-	  </div>
+		<a href="/product/{{product.slug}}/{{product.id}}" class="image-container">
+			<span class="discount-label">-{{product.productattribute_set.first.discount}}%</span>
+			<img src="{{ product.productattribute_set.first.images.first.image.url }}"
+				class="image-product card-img-top" alt="{{ product.title }}">
+		</a>
+		<div class="card-body">
+			<label class="btn-product">Giáng sinh</label>
+			<label class="btn-product">Giảm giá</label>
+			<h4><a href="/product/{{product.slug}}/{{product.id}}">{{product.title}}</a></h4>
+			<div class="card-inline">
+				{% for star in product.star|ljust:product.star %}
+				<img src="{% static '/media/images/icons/star.png' %}" alt="star" />
+				{% endfor %}
+				<div class="comment">{{product.avg_rating}}</div>
+			</div>
+			<div class="card-inline">
+				<h5 class="real-price">{{product.productattribute_set.first.price}} &#8363</h5>
+				<h5 class="promote-price">{{ product.discount }} &#8363</h5>
+			</div>
+		</div>
+		<div class="card-footer">
+			<button class="btn-product-footer">Xem thêm</button>
+			<button class="btn btn-sm btn-primary add-to-cart" type="button"
+				id="addToCartBtn"><i class="fa fa-shopping-cart"></i></button>
+			{% if user.is_authenticated %}
+			<button class="btn btn-sm btn-danger add-wishlist"><i
+					class="fa fa-heart"></i></button>
+			{% else %}
+			<button class="btn btn-sm btn-danger disabled"><i class="fa fa-heart"></i></button>
+			{% endif %}
+		</div>
 	</div>
 </div>
 {% endfor %}

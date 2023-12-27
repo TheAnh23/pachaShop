@@ -5,6 +5,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>PaCha Shop</title>
+	<link rel="shortcut icon" href="{% static 'media/images/favicon.ico' %}" type="image/x-icon">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}" />
 	<!-- Bootstrap 4 CSS -->
@@ -56,13 +57,13 @@
 							</div>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" href="{% url 'brand-list' %}">Khuyến mãi</a>
+							<a class="nav-link text-dark" href="{% url 'promotion' %}">Khuyến mãi</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" href="{% url 'category-list' %}">Tin tức</a>
+							<a class="nav-link text-dark" href="{% url 'blog-list' %}">Tin tức</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link text-dark" href="{% url 'brand-list' %}">Liên hệ</a>
+							<a class="nav-link text-dark" href="{% url 'contact' %}">Liên hệ</a>
 						</li>
 				</div>
 				<div class="input-group-append navbar-nav">
@@ -74,7 +75,10 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							{% if user.is_authenticated %}
 							<a class="dropdown-item" href="{% url 'my_dashboard' %}">Thống kê</a>
-							<a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+							<form method="post" action="{% url 'logout' %}">
+								{% csrf_token %}
+								<button class="dropdown-item" type="submit">Đăng xuất</button>
+							</form>
 							{% else %}
 							<a class="dropdown-item" href="{% url 'login' %}">Đăng nhập</a>
 							<a class="dropdown-item" href="{% url 'signup' %}">Đăng ký</a>
@@ -89,8 +93,14 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link text-dark" href="{% url 'cart' %}">
-							<img src="{% static '/media/images/icons/cart.png' %}" alt="cart">
-							(<span class="cart-list">{{request.session.cartdata|length}}</span>)
+							<div class="nav-cart" style="position: absolute; margin-left: 0.7%">
+								<div style="flex: 1 1 0; text-align: center; color: #ffffff; font-size: 11px; font-family: Inter; font-weight: bold; line-height: 16px; word-wrap: break-word;">
+									<span class="cart-list">{{ request.session.cartdata|length }}</span>
+								</div>
+							</div>
+							<img src="{% static '/media/images/icons/cart.png' %}"> 
+							<!-- <img src="{% static '/media/images/icons/cart.png' %}" alt="cart">
+							(<span class="cart-list">{{request.session.cartdata|length}}</span>) -->
 						</a>
 					</li>
 					{% endif %}
@@ -99,16 +109,19 @@
 			</div>
 		</div>
 	</nav>
-
-	{% block content %}
-	{% endblock %}
-
+	<div>
+		{% block content %}
+		{% endblock %}
+	</div>
 	<footer class="pt-4 my-md-5 pt-md-5 border-top container-fluid">
 		<div class="row header-row">
-			<div class="col-12">
+			<div class="col-3 text-center">
 				<a href="#">
 					<img src="{% static '\media\images\logo\footer.png' %}" alt="footer">
 				</a>
+			</div>
+			<div class="col-9 text-center">
+
 			</div>
 		</div>
 		<div class="row main-row">
@@ -117,8 +130,10 @@
 				<h1>PACHA SOAP là công ty hoạt động với mục đích chế tạo các sản phẩm thủ công, tự nhiên làm hài lòng
 					làn da và nâng cao sức khỏe. Sứ mệnh của chúng tôi là kinh doanh có đạo đức bằng cách thực hiện các
 					giải pháp lâu dài, bền vững.</h1>
-				<p>Đăng ký để nhận mã giảm giá độc quyền và tin tức thú vị.<br />Ưu đãi áp dụng cho tất cả sản phẩm!</p>
-				<button class="btn-footer overlay-button">Đăng ký</button>
+				<p class="mt-3 mb-3">Đăng ký để nhận mã giảm giá độc quyền và tin tức thú vị.<br />Ưu đãi áp dụng cho tất cả sản phẩm!</p>
+				<a class="btn-footer overlay-button" href="{% url 'login' %}">
+					Đăng ký
+				</a>
 			</div>
 			<div class="col-4 col-md">
 				<h5>Thông tin quan trọng</h5>
@@ -150,13 +165,18 @@
 			</div>
 		</div>
 		<div class="row foot-row">
-			<div class="col-12 col-md">
+			<div class="col-8 col-md">
 				<p>
 					© 2023 PACHA SOAP CO<br />
 					<b>Địa chỉ: </b>Đường Mạc Đĩnh Chi, Khu phố Tân Hòa, Phường Đông Hòa, Thành phố Dĩ An, Tỉnh Bình
 					Dương<br />
 					<b>Điện thoại: </b>039576832
 				</p>
+			</div>
+			<div class="col-4 col-md text-center">
+				<a href="https://moit.gov.vn/">
+					<img src="{% static '\media\images\logo\logo_bo_cong_thuong.png' %}" width="30%" alt="">
+				</a>
 			</div>
 		</div>
 	</footer>

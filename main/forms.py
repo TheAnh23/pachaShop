@@ -1,5 +1,4 @@
 from django import forms
-from django.contrib.sites.models import Site
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
@@ -21,7 +20,7 @@ class ReviewAdd(forms.ModelForm):
 class AddressBookForm(forms.ModelForm):
 	class Meta:
 		model=UserAddressBook
-		fields=('address','mobile','status')
+		fields=('email','phone','recipient','province','district','ward','street','note')
 
 # ProfileEdit
 class ProfileForm(UserChangeForm):
@@ -32,5 +31,8 @@ class ProfileForm(UserChangeForm):
 class ContactForm(forms.ModelForm):
 	class Meta:
 		model=Contact
-		fields=('user','email','message')
+		fields=('name','email','message')
+
+class VoucherForm(forms.Form):
+    code = forms.CharField(label='Mã voucher', max_length=50)
 	

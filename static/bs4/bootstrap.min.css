@@ -57,7 +57,7 @@ section {
 
 body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: Inter;
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
@@ -161,13 +161,13 @@ sup {
 }
 
 a {
-    color: #000;
+    color: #9B4600;
     text-decoration: none;
     background-color: transparent
 }
 
 a:hover {
-    color: #9B4600;
+    color: #5a2d08;
     text-decoration: underline
 }
 
@@ -305,24 +305,33 @@ textarea {
 }
 
 fieldset {
-    min-width: 0;
     padding: 0;
     margin: 0;
-    border: 0
+    border-top-left-radius: 4px; border-top-right-radius: 4px;
 }
 
 legend {
     display: block;
-    width: 100%;
-    max-width: 100%;
-    padding: 0;
-    margin-bottom: .5rem;
-    font-size: 1.5rem;
+    padding: 0 2px 0 2px;
+    margin-left: 30px;
     line-height: inherit;
     color: inherit;
-    white-space: normal
+    white-space: normal;
+    color: #52443C;
+    font-size: 16px;
+    font-family: Inter;
+    font-weight: 400;
+    line-height: 20px;
 }
-
+fieldset input {
+    width: 100%;
+    border: none;
+}
+fieldset input:focus {
+    color: black;
+    background-color: #fff;
+    outline: 0;
+}
 progress {
     vertical-align: baseline
 }
@@ -1977,7 +1986,8 @@ pre code {
 .table-borderless td,
 .table-borderless th,
 .table-borderless thead th {
-    border: 0
+    border: 0;
+    text-align: center;
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -2288,11 +2298,11 @@ pre code {
     font-weight: 400;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: #D9D9D9;
     background-clip: padding-box;
-    border: 1px solid #ced4da;
+    border: none;
     border-radius: .25rem;
-    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+    /* transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out */
 }
 
 @media (prefers-reduced-motion:reduce) {
@@ -2316,7 +2326,7 @@ pre code {
     background-color: #fff;
     border-color: #80bdff;
     outline: 0;
-    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25)
+    box-shadow: 0 0 0 .2rem #D9D9D9
 }
 
 .form-control::-webkit-input-placeholder {
@@ -2813,7 +2823,7 @@ textarea.form-control.is-invalid {
 .btn {
     display: inline-block;
     font-weight: 400;
-    color: #212529;
+    color: #763300;
     text-align: center;
     vertical-align: middle;
     -webkit-user-select: none;
@@ -2862,14 +2872,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
     color: #fff;
-    background-color: #007bff;
-    border-color: #007bff
+    background-color: #763300;
+    border-color: #763300
 }
 
 .btn-primary:hover {
     color: #fff;
-    background-color: #0069d9;
-    border-color: #0062cc
+    background-color: #763300;
+    border-color: #763300
 }
 
 .btn-primary.focus,
@@ -2903,14 +2913,14 @@ fieldset:disabled a.btn {
 
 .btn-secondary {
     color: #fff;
-    background-color: #6c757d;
-    border-color: #6c757d
+    background-color: #763300;
+    border-color: #763300
 }
 
 .btn-secondary:hover {
     color: #fff;
-    background-color: #5a6268;
-    border-color: #545b62
+    background-color: #763300;
+    border-color: #763300
 }
 
 .btn-secondary.focus,
@@ -4732,7 +4742,7 @@ input[type=submit].btn-block {
     padding: 0.5%;
     position: sticky;
 	top: 0;
-	background-color: #D9D9D9;
+	background-color: #FBEEE9;
     z-index: 3;
 }
 
@@ -5323,11 +5333,16 @@ input[type=submit].btn-block {
 }
 
 .card-img,
-.card-img-bottom,
 .card-img-top {
     -ms-flex-negative: 0;
     flex-shrink: 0;
     width: 100%
+}
+.card-img-bottom {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 20%;
+    padding: .5rem;
 }
 
 .card-img,
@@ -6024,7 +6039,7 @@ a.badge-dark:focus {
 .list-group-item-action {
     width: 100%;
     color: #495057;
-    text-align: inherit
+    text-align: inherit;
 }
 
 .list-group-item-action:focus,

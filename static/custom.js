@@ -77,7 +77,7 @@ $(document).ready(function(){
 		var _productId=$(".product-id-"+_index).val();
 		var _productImage=$(".product-image-"+_index).val();
 		var _productTitle=$(".product-title-"+_index).val();
-		var _productPrice=$(".product-price-"+_index).text();
+		var _productPrice=$(".product-price-"+_index).val();
 		// Ajax
 		$.ajax({
 			url:'/add-to-cart',
@@ -202,7 +202,21 @@ $(document).ready(function(){
 	});
 });
 // End Document.Ready
-
+$('#apply-voucher').click(function () {
+    var voucherCode = $('#voucher-form').val();
+    
+    if (voucherCode === "TET2024") {
+        // Áp dụng giảm giá 20% cho vận chuyển
+        if (!isVoucherApplied) {
+            var discountvoucher = '20%';
+            var newTotalSum = parseFloat($('#total_sum').text()) - discountvoucher;
+            $('#total_sum').text(newTotalSum.toFixed(2));
+            isVoucherApplied = true;
+        }
+    } else {
+        // Xử lý trường hợp khác (nếu cần)
+    }
+});
 // Product Review Save
 $("#addForm").submit(function(e){
 	$.ajax({
@@ -219,17 +233,17 @@ $("#addForm").submit(function(e){
 				// End
 
 				// create data for review
-				var _html='<blockquote class="blockquote text-right">';
-				_html+='<small>'+res.data.review_text+'</small>';
+				var _html='<blockquote class="blockquote text-left">';
 				_html+='<footer class="blockquote-footer">'+res.data.user;
 				_html+='<cite title="Source Title">';
 				for(var i=1; i<=res.data.review_rating; i++){
-					_html+='<i class="fa fa-star text-warning"></i>';
+					_html+=`<img src="/static/media/images/icons/star.png" alt='star'>`;
 				}
 				_html+='</cite>';
 				_html+='</footer>';
+				_html+='<small>'+res.data.review_text+'</small>';
 				_html+='</blockquote>';
-				_html+='</hr>';
+				_html+='<hr/>';
 
 				$(".no-data").hide();
 
@@ -240,7 +254,7 @@ $("#addForm").submit(function(e){
 				$("#productReview").modal('hide');
 
 				// AVg Rating
-				$(".avg-rating").text(res.avg_reviews.avg_rating.toFixed(1))
+				// $(".avg-rating").text(res.avg_reviews.avg_rating.toFixed(1))
 			}
 		}
 	});

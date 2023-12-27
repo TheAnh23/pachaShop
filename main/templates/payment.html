@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="container my-4" id="cartList">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered w-100">
+                <tr>
+                    <td width="20%" class="text-center">Liên hệ</td>
+                    <td>{{ address.phone }}</td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-center">Địa chỉ</td>
+                    <td>{{ ship_address }}</td>
+                </tr>
+            </table>
+            <h4 class="my-4 text-left border-bottom pb-1">PHƯƠNG THỨC VẬN CHUYỂN</h4>
+            <div class="card">
+                <div class="card-body review-list">
+                    {% if ships %}
+                        <div class="row mb-0 pb-0">
+                            <div class="col-md-1">
+                                <img src="{{ships.image.url}}" alt="">
+                            </div>
+                            <div class="col-8">
+                                <strong>{{ships.title}}</strong>
+                                <p>{{ships.description}}</p>
+                            </div>
+                            <div class="col-2">{{ships.price}}</div>
+                        </div>
+                        <hr/>
+                    {% else %}
+                        <p class="no-data">Không hỗ trợ vận chuyển</p>
+                    {% endif %}
+                </div>
+            </div>
+            <h4 class="my-4 text-left border-bottom pb-1">PHƯƠNG THỨC THANH TOÁN</h4>
+            <div class="card">
+                <div class="card-body review-list">
+                    {% if payments %}
+                        {% for payment in payments %}
+                        <div class="row mb-0 pb-0">
+                            <div class="col-1">
+                                <input type="radio" name="payment" id="{{payment.title}}">
+                            </div>
+                            <div class="col-md-1">
+                                <img src="{{payment.image.url}}" alt="" width="40">
+                            </div>
+                            <div class="col-10">
+                                <strong>{{payment.title}}</strong>
+                            </div>
+                        </div>
+                        <hr/>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-data">Không hỗ trợ vận chuyển</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a class="btn btn-danger" href="{% url 'shipment' %}">TRỞ LẠI</a>
+                <a class="btn btn-primary" href="{% url 'onl-payment' %}">THANH TOÁN</a>
+            </div>
+        </div>
+        <div class="col-6 flex-column">
+            {% include "order_updated.html" %}
+        </div>
+    </div>
+</main>
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<main class="container my-4" id="cartList">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered w-100">
+                <tr>
+                    <td width="20%" class="text-center">Liên hệ</td>
+                    <td>{{ address.phone }}</td>
+                </tr>
+                <tr>
+                    <td width="20%" class="text-center">Địa chỉ</td>
+                    <td>{{ ship_address }}</td>
+                </tr>
+            </table>
+            <h4 class="my-4 text-left border-bottom pb-1">PHƯƠNG THỨC VẬN CHUYỂN</h4>
+            <div class="card">
+                <div class="card-body review-list">
+                    {% if ships %}
+                        {% for ship_type in ships %}
+                        <div class="row mb-0 pb-0 d-flex align-items-center">
+                            <div class="col-1">
+                                <input type="radio" name="shipment" id="{{ship_type.title}}">
+                            </div>
+                            <div class="col-1 text-center p-0">
+                                <img src="{{ship_type.image.url}}" alt="">
+                            </div>
+                            <div class="col-8">
+                                <strong>{{ship_type.title}}</strong>
+                                <p>{{ship_type.description}}</p>
+                            </div>
+                            <div class="col-2">{{ship_type.price}} &#8363</div>
+                        </div>
+                        <hr/>
+                        {% endfor %}
+                    {% else %}
+                        <p class="no-data">Không hỗ trợ vận chuyển</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <a class="btn btn-danger" href="{% url 'checkout' %}">Quay lại</a>
+                <a class="btn btn-primary" id="confirmShipment" href="#">Xác nhận</a>
+                <a class="btn btn-primary" href="{% url 'payment' %}">Tiếp tục</a>
+            </div>
+        </div>
+        <div class="col-6 flex-column">
+            {% include "order_updated.html" %}
+        </div>
+    </div>
+</main>
+{% endblock %}

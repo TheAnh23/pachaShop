@@ -5,6 +5,7 @@
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>PaCha Shop</title>
+	<link rel="shortcut icon" href="{% static 'media/images/favicon.ico' %}" type="image/x-icon">
 	<!-- Font Awesome -->
 	<link rel="stylesheet" type="text/css" href="{% static 'fontawesome-free/css/all.min.css' %}" />
 	<!-- Bootstrap 4 CSS -->
@@ -74,7 +75,10 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							{% if user.is_authenticated %}
 							<a class="dropdown-item" href="{% url 'my_dashboard' %}">Thống kê</a>
-							<a class="dropdown-item" href="{% url 'logout' %}">Đăng xuất</a>
+							<form method="post" action="{% url 'logout' %}">
+								{% csrf_token %}
+								<button class="dropdown-item" type="submit">Đăng xuất</button>
+							</form>
 							{% else %}
 							<a class="dropdown-item" href="{% url 'login' %}">Đăng nhập</a>
 							<a class="dropdown-item" href="{% url 'signup' %}">Đăng ký</a>

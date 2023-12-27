@@ -124,6 +124,52 @@ class ProductAttribute(models.Model):
     def __str__(self):
         return self.product.title
 
+# AddressBook
+class UserAddressBook(models.Model):
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    email=models.CharField(max_length=100, null=True)
+    phone=models.CharField(max_length=100, null=True)
+    recipient=models.CharField(max_length=100, null=True)
+    province = models.CharField(max_length=100, null=True)
+    district = models.CharField(max_length=100, null=True)
+    ward = models.CharField(max_length=100, null=True)
+    street=models.CharField(max_length=200, null=True)
+    note=models.CharField(max_length=200, null=True)
+    status=models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name_plural='Address Book'
+
+# Shipment
+class Shipment(models.Model):
+    image = models.ImageField(upload_to="ship_imgs/", null=True, blank=True)
+    title = models.CharField(max_length=200,null=True)
+    description = models.CharField(max_length=200,null=True)
+    price = models.PositiveIntegerField(default=0)
+
+    class Meta:
+        verbose_name_plural='Shipment'
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
+    def __str__(self):
+        return self.title
+
+# Payment
+class Payment(models.Model):
+    image = models.ImageField(upload_to="payment_imgs/", null=True, blank=True)
+    title = models.CharField(max_length=200,null=True)
+
+    class Meta:
+        verbose_name_plural='Payment'
+
+    def image_tag(self):
+        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
+
+    def __str__(self):
+        return self.title
+    
 # Order
 status_choice=(
         ('process','In Process'),
@@ -132,6 +178,9 @@ status_choice=(
     )
 class CartOrder(models.Model):
     user=models.ForeignKey(User,on_delete=models.CASCADE)
+    address=models.ForeignKey(UserAddressBook,on_delete=models.CASCADE,null=True)
+    shipment=models.ForeignKey(Shipment,on_delete=models.CASCADE,null=True)
+    payment=models.ForeignKey(Payment,on_delete=models.CASCADE,null=True)
     total_amt=models.FloatField()
     paid_status=models.BooleanField(default=False)
     order_dt=models.DateTimeField(auto_now_add=True)
@@ -201,58 +250,14 @@ class Wishlist(models.Model):
     class Meta:
         verbose_name_plural='Wishlist'
 
-# AddressBook
-class UserAddressBook(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    email=models.CharField(max_length=100, null=True)
-    phone=models.CharField(max_length=100, null=True)
-    recipient=models.CharField(max_length=100, null=True)
-    province = models.CharField(max_length=100, null=True)
-    district = models.CharField(max_length=100, null=True)
-    ward = models.CharField(max_length=100, null=True)
-    street=models.CharField(max_length=200, null=True)
-    note=models.CharField(max_length=200, null=True)
-
-    class Meta:
-        verbose_name_plural='Address Book'
-
-
 # Contact
 class Contact(models.Model):
-    user = models.EmailField(max_length=100)
+    name = models.CharField(max_length=100, null=True)
     email = models.EmailField(max_length=100)
     message=models.TextField()
 
     class Meta:
         verbose_name_plural='Contact'
-
-class Shipment(models.Model):
-    image = models.ImageField(upload_to="ship_imgs/", null=True, blank=True)
-    title = models.CharField(max_length=200,null=True)
-    description = models.CharField(max_length=200,null=True)
-    price = models.PositiveIntegerField(default=0)
-
-    class Meta:
-        verbose_name_plural='Shipment'
-
-    def image_tag(self):
-        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
-
-    def __str__(self):
-        return self.title
-
-class Payment(models.Model):
-    image = models.ImageField(upload_to="payment_imgs/", null=True, blank=True)
-    title = models.CharField(max_length=200,null=True)
-
-    class Meta:
-        verbose_name_plural='Payment'
-
-    def image_tag(self):
-        return mark_safe('<img src="%s" width="50" height="50" />' % (self.image.url))
-
-    def __str__(self):
-        return self.title
 
 class Voucher(models.Model):
     code = models.CharField(max_length=10,null=True)

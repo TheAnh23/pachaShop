@@ -353,32 +353,6 @@ from .forms import AddressBookForm  # Make sure to import your AddressBookForm
 def checkout(request):
     total_amt = 0
     msg = None
-
-    if 'cartdata' in request.session:
-        for p_id, item in request.session['cartdata'].items():
-            total_amt += int(item['qty']) * float(item['price'])
-        
-        # Order
-        order = CartOrder.objects.create(
-            user=request.user,
-            total_amt=total_amt
-        )
-        # End
-
-        for p_id, item in request.session['cartdata'].items():
-            total_amt += int(item['qty']) * float(item['price'])
-            # OrderItems
-            items = CartOrderItems.objects.create(
-                order=order,
-                invoice_no='INV-' + str(order.id),
-                item=item['title'],
-                image=item['image'],
-                qty=item['qty'],
-                price=item['price'],
-                total=float(item['qty']) * float(item['price'])
-            )
-            # End
-
     if request.method == 'POST':
         form = AddressBookForm(request.POST)
         if form.is_valid():
@@ -393,8 +367,34 @@ def checkout(request):
     else:
         form = AddressBookForm()  # Instantiate the form here
 
-    # address = UserAddressBook.objects.filter(user=request.user, status=True).first()
+    if 'cartdata' in request.session:
+        for p_id, item in request.session['cartdata'].items():
+            total_amt += int(item['qty']) * float(item['price'])
         
+        # Order
+        order = CartOrder.objects.create(
+            user=request.user,
+            total_amt=total_amt,
+			address = UserAddressBook.objects.filter(user=request.user, status=True).first(),
+			shipment = Shipment.objects.first(),
+			payment = Payment.objects.first(),
+        )
+        # End
+
+        for p_id, item in request.session['cartdata'].items():
+            # total_amt += int(item['qty']) * float(item['price'])
+            # OrderItems
+            items = CartOrderItems.objects.create(
+                order=order,
+                invoice_no='INV-' + str(order.id),
+                item=item['title'],
+                image=item['image'],
+                qty=item['qty'],
+                price=item['price'],
+                total=float(item['qty']) * float(item['price'])
+            )
+            # End
+			 
     return render(request, 'checkout.html', {'cart_data': request.session['cartdata'], 'totalitems': len(request.session['cartdata']), 'total_amt': total_amt, 'form': form, 'msg': msg})
 
 
@@ -488,6 +488,8 @@ def my_reviews(request):
 # My AddressBook
 def my_addressbook(request):
 	addbook=UserAddressBook.objects.filter(user=request.user).order_by('-id')
+	for add in addbook:
+		add.ship_address = f"{add.street}, {add.ward}, {add.district}, {add.province}"
 	return render(request, 'user/addressbook.html',{'addbook':addbook})
 
 # Save addressbook
@@ -542,6 +544,8 @@ def update_address(request,id):
 # Shippment
 def shipment(request):
 	ships = Shipment.objects.all()
+	address = UserAddressBook.objects.filter(user=request.user, status=True).first()
+	ship_address = f"{address.street}, {address.ward}, {address.district}, {address.province}"
 	for ship in ships:
 		ship.price = format(ship.price,",").replace(',', '.')
 	total_amt=0
@@ -549,56 +553,23 @@ def shipment(request):
 	if 'cartdata' in request.session:
 		for p_id,item in request.session['cartdata'].items():
 			totalAmt+=int(item['qty'])*float(item['price'])
-		# Order
-		order=CartOrder.objects.create(
-				user=request.user,
-				total_amt=totalAmt
-			)
-		# End
-		for p_id,item in request.session['cartdata'].items():
-			total_amt+=int(item['qty'])*float(item['price'])
-			# OrderItems
-			items=CartOrderItems.objects.create(
-				order=order,
-				invoice_no='INV-'+str(order.id),
-				item=item['title'],
-				image=item['image'],
-				qty=item['qty'],
-				price=item['price'],
-				total=float(item['qty'])*float(item['price'])
-				)
-			# End
-	return render(request, 'shipment.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'ships':ships})
+		total_amt = totalAmt
+	return render(request, 'shipment.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'ships':ships,'ship_address':ship_address,'address':address})
 #Payment
 def payment(request):
 	ship = Shipment.objects.first()
-	fake_ship_price = '50000.0 ₫'
+	fake_ship_price = '50000.0'
+	address = UserAddressBook.objects.filter(user=request.user, status=True).first()
+	ship_address = f"{address.street}, {address.ward}, {address.district}, {address.province}"
 	payments = Payment.objects.all()
 	total_amt=0
 	totalAmt=0
 	if 'cartdata' in request.session:
 		for p_id,item in request.session['cartdata'].items():
 			totalAmt+=int(item['qty'])*float(item['price'])
-		# Order
-		order=CartOrder.objects.create(
-				user=request.user,
-				total_amt=totalAmt
-			)
-		# End
-		for p_id,item in request.session['cartdata'].items():
-			total_amt+=int(item['qty'])*float(item['price'])
-			# OrderItems
-			items=CartOrderItems.objects.create(
-				order=order,
-				invoice_no='INV-'+str(order.id),
-				item=item['title'],
-				image=item['image'],
-				qty=item['qty'],
-				price=item['price'],
-				total=float(item['qty'])*float(item['price'])
-				)
-			# End
-	return render(request, 'payment.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'payments':payments,'ships':ship,'fake_ship_price':fake_ship_price})
+			originAmt = totalAmt-ship.price
+		total_amt = totalAmt
+	return render(request, 'payment.html',{'cart_data':request.session['cartdata'],'totalitems':len(request.session['cartdata']),'total_amt':total_amt,'payments':payments,'ships':ship,'ship_address':ship_address,'address':address,'originAmt':originAmt,'fake_ship_price':fake_ship_price})
 
 # Onl-Payment
 def onl_payment(request):
@@ -660,4 +631,4 @@ def apply_voucher(request):
     else:
         form = VoucherForm()
 
-    return render(request, 'order_updated.html', {'form': form})
+    return render(request, 'order_updated.html', {'voucherform': form})

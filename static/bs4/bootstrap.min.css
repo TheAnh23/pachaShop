@@ -6039,7 +6039,7 @@ a.badge-dark:focus {
 .list-group-item-action {
     width: 100%;
     color: #495057;
-    text-align: inherit
+    text-align: inherit;
 }
 
 .list-group-item-action:focus,

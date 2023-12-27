@@ -31,7 +31,7 @@ class ProfileForm(UserChangeForm):
 class ContactForm(forms.ModelForm):
 	class Meta:
 		model=Contact
-		fields=('user','email','message')
+		fields=('name','email','message')
 
 class VoucherForm(forms.Form):
     code = forms.CharField(label='Mã voucher', max_length=50)

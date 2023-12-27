@@ -7,7 +7,6 @@ admin.site.register(Brand)
 admin.site.register(Collection)
 admin.site.register(Size)
 
-
 class BannerAdmin(admin.ModelAdmin):
 	list_display=('alt_text','display_media')
 admin.site.register(Banner,BannerAdmin)
@@ -38,7 +37,7 @@ admin.site.register(ProductAttribute, ProductAttributeAdmin)
 # Order
 class CartOrderAdmin(admin.ModelAdmin):
 	list_editable=('paid_status','order_status')
-	list_display=('user','total_amt','paid_status','order_dt','order_status')
+	list_display=('user','address','shipment','payment','total_amt','paid_status','order_dt','order_status')
 admin.site.register(CartOrder,CartOrderAdmin)
 
 class CartOrderItemsAdmin(admin.ModelAdmin):
@@ -55,12 +54,12 @@ admin.site.register(Wishlist)
 
 
 class UserAddressBookAdmin(admin.ModelAdmin):
-	list_display=('user','province','district','ward','street')
+	list_display=('user','province','district','ward','street','status')
 admin.site.register(UserAddressBook,UserAddressBookAdmin)
 
 
 class ContactAdmin(admin.ModelAdmin):
-	list_display=('id','user','email','message')
+	list_display=('id','name','email','message')
 admin.site.register(Contact,ContactAdmin)
 
 class BlogListAdmin(admin.ModelAdmin):

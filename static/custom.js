@@ -202,7 +202,21 @@ $(document).ready(function(){
 	});
 });
 // End Document.Ready
-
+$('#apply-voucher').click(function () {
+    var voucherCode = $('#voucher-form').val();
+    
+    if (voucherCode === "TET2024") {
+        // Áp dụng giảm giá 20% cho vận chuyển
+        if (!isVoucherApplied) {
+            var discountvoucher = '20%';
+            var newTotalSum = parseFloat($('#total_sum').text()) - discountvoucher;
+            $('#total_sum').text(newTotalSum.toFixed(2));
+            isVoucherApplied = true;
+        }
+    } else {
+        // Xử lý trường hợp khác (nếu cần)
+    }
+});
 // Product Review Save
 $("#addForm").submit(function(e){
 	$.ajax({

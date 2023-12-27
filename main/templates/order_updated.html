@@ -15,17 +15,14 @@
         </tr>
         {% endfor %}
         <tfoot>
-            <tr>
-                <td colspan="3">
-                    <form method="post" id="voucher-form">
-                        {% csrf_token %}
-                        {{ voucherform.as_p }}
-                </td>
-                <td>
-                    <button type="submit" class="btn btn-primary" id="apply-voucher">Áp dụng</button>
-                </td>
-                </form>
-            </tr>
+                <tr>
+                    <td colspan="3">
+                        <input type="text" id="voucher-form">
+                    </td>
+                    <td>
+                        <input type="button" class="btn btn-primary" id="apply-voucher" value="Áp dụng">
+                    </td>
+                </tr>
             <tr>
                 <td colspan="3">Tạm tính</td>
                 <td>{{total_amt}} &#8363;</td>
@@ -44,31 +41,28 @@
             </tr>
             <tr>
                 <td colspan="3">TỔNG CỘNG</td>
-                <td id='total_sum'>{% if fake_ship_price %} 500000
+                <td id='total_sum'>{% if fake_ship_price %} {{originAmt}}
                     {% else %}
                     {% endif %}</td>
             </tr>
         </tfoot>
     </table>
 </div>
-<script>
-    $(document).ready(function () {
-        $('div.btn.btn-danger').click(function () {
-            // Thay đổi giá trị của phần tử có ID "discount-value"
-            $('#discount-value').text('20000.0 ₫');
-            $('#total_sum').text('280000.0 ₫');
+<script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        var applyButton = document.getElementById("apply-voucher");
+        var discountValue = document.getElementById("discount-value");
+        var totalSum = document.getElementById("total_sum");
+
+        applyButton.addEventListener("click", function() {
+            // Cập nhật giá trị giảm giá
+            discountValue.textContent = "20000.0";
+
+            // Cập nhật tổng cộng
+            var totalAmt = parseFloat(totalSum.textContent);
+            var discount = parseFloat(discountValue.textContent);
+            var newTotalAmt = totalAmt - discount;
+            totalSum.textContent = newTotalAmt.toFixed(2);
         });
     });
-    $('#apply-voucher').click(function () {
-            $.ajax({
-                type: 'POST',
-                data: $('#voucher-form').serialize(),
-                success: function (data) {
-                    $('#discount-value').text(data.new_price);
-                },
-                error: function () {
-                    // Xử lý lỗi nếu có
-                }
-            });
-        });
 </script>

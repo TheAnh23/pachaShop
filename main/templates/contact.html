@@ -12,17 +12,19 @@
         </div>
         <div class="col-6">
             <h3 class="my-4 border-bottom pb-1">LIÊN HỆ</h3>
-            <table class="table table-bordered">
-                <form method="post">
-                    {% csrf_token %}
-                    {{ form.as_table }}
-                    <tr>
-                        <td colspan="2">
-                            <input type="submit" value="Gửi" class="btn btn-footer" />
-                        </td>
-                    </tr>
-                </form>
-            </table>
+            <div class="justify-content-between align-items-center">
+                <table class="table table-borderless">
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form.as_table }}
+                        <tr>
+                            <td colspan="2">
+                                <input type="submit" value="Gửi" class="btn btn-footer btn-sm" />
+                            </td>
+                        </tr>
+                    </form>
+                </table>
+            </div>
         </div>
     </div>
 </main>

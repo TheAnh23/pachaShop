@@ -24,7 +24,6 @@ INSTALLED_APPS = [
     'main',
     'jet.dashboard',
     'jet',
-    # 'admin_material.apps.AdminMaterialDashboardConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -32,7 +31,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'paypal.standard.ipn',
-    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -135,7 +133,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL='home'
-LOGOUT_REDIRECT_URL='login'
+LOGOUT_REDIRECT_URL='home'
 
 PAYPAL_RECEIVER_EMAIL = 'sb-c5xgx6555500@business.example.com'
 PAYPAL_TEST = True
@@ -148,11 +146,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 django_heroku.settings(locals())
-
-REST_FRAMEWORK = {
-    # Use Django's standard `django.contrib.auth` permissions,
-    # or allow read-only access for unauthenticated users.
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
-}
